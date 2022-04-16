@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Grid, Input, Text, Button } from '../elements/index'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { history } from '../redux/configureStore'
 import { actionCreator as userActions } from '../redux/modules/user'
 import { useDispatch } from 'react-redux'
@@ -86,15 +86,23 @@ const Login = (props) => {
           Create an account
         </Text>
       </Container>
+      <GlobalStyle></GlobalStyle>
     </>
   )
 }
+
+const GlobalStyle = createGlobalStyle`
+body {
+  background-color: #eee;
+}
+`
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 150px;
+  margin-top: 20px;
 `
 
 const LoginForm = styled.div`

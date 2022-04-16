@@ -11,7 +11,9 @@ const Sidebar = (pros) => {
       <Container>
         <Btn>
           <RiHome5Fill size="20" color="#fff" className="nav_icons" />
-          <Text color="#fff">홈</Text>
+          <Text color="#fff" size="14px">
+            홈
+          </Text>
         </Btn>
 
         <Btn>
@@ -20,23 +22,31 @@ const Sidebar = (pros) => {
             color="#fff"
             className="nav_icons"
           />
-          <Text color="#fff">구독</Text>
+          <Text color="#fff" size="14px">
+            구독
+          </Text>
         </Btn>
         <Hr />
         <Btn>
           <AiOutlineLike size="20" color="#fff" className="nav_icons" />
-          <Text color="#fff">좋이요 표시한 동영상</Text>
+          <Text color="#fff" size="14px">
+            좋이요 표시한 동영상
+          </Text>
         </Btn>
         <Btn>
           <RiSaveLine size="20" color="#fff" className="nav_icons" />
-          <Text color="#fff">보관함</Text>
+          <Text color="#fff" size="14px">
+            보관함
+          </Text>
         </Btn>
         <Btn>
           <MdOutlineSmartDisplay size="20" color="#fff" className="nav_icons" />
-          <Text color="#fff">내 동영상</Text>
+          <Text color="#fff" size="14px">
+            내 동영상
+          </Text>
         </Btn>
         <Hr />
-        <Text margin="20px 30px" color="#fff">
+        <Text margin="20px 30px" color="#fff" size="14px">
           구독
         </Text>
         <SubsList />
@@ -47,8 +57,13 @@ const Sidebar = (pros) => {
 
 const Container = styled.div`
   background-color: #212121;
-  width: 300px;
+  width: 220px;
   height: 100vh;
+  margin-top: 8vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 `
 const Btn = styled.div`
   padding: 0 30px;

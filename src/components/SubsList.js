@@ -7,19 +7,27 @@ const SubList = (props) => {
     <div>
       <List isFlex_start>
         <Profile></Profile>
-        <Text color="#fff">구독자 이름</Text>
+        <Text size="14px" color="#fff">
+          구독자 이름
+        </Text>
       </List>
       <List isFlex_start>
         <Profile></Profile>
-        <Text color="#fff">구독자 이름</Text>
+        <Text size="14px" color="#fff">
+          구독자 이름
+        </Text>
       </List>
       <List isFlex_start>
         <Profile></Profile>
-        <Text color="#fff">구독자 이름</Text>
+        <Text size="14px" color="#fff">
+          구독자 이름
+        </Text>
       </List>
       <List isFlex_start>
         <Profile></Profile>
-        <Text color="#fff">구독자 이름</Text>
+        <Text size="14px" color="#fff">
+          구독자 이름
+        </Text>
       </List>
     </div>
   )

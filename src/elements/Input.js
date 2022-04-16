@@ -46,7 +46,7 @@ const Input = (props) => {
 Input.defaultProps = {
   disabled: false,
   label: '',
-  placeholde: '텍스트를 입력하세요',
+  placeholder: '텍스트를 입력하세요',
   _onChange: () => {},
   type: 'text',
   value: '',
