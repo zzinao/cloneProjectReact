@@ -79,6 +79,20 @@ const PostWrite = (props) => {
     return dispatch(postActions.addPostDB(formData));
   };
 
+  //수정 블록
+  const editPost = () => {
+    const postImage = imageFileInput.current.files[0];
+    const postVideo = videoFileInput.current.files[0];
+
+    const formData = new FormData();
+
+    formData.append("postTitle", postTitle);
+    formData.append("postDesc", postDesc);
+    formData.append("postImage", postImage);
+    formData.append("postVideo", postVideo);
+
+    return dispatch(postActions.editPostDB(postNum, formData));
+  }
   return (
     <React.Fragment>
       <Grid>
@@ -131,7 +145,12 @@ const PostWrite = (props) => {
           />
         </Grid>
         <Grid margin="100px 0px 0px 0px">
-          <Button width="50%" _onClick={addPost} text="게시글 등록" />
+          {is_edit ? (
+            <Button width="50%" _onClick={editPost} text="게시글 수정" />
+          ):(
+            <Button width="50%" _onClick={addPost} text="게시글 등록" />
+          )}
+          
         </Grid>
       </Grid>
     </React.Fragment>
