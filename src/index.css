@@ -16,6 +16,10 @@ body {
   cursor: pointer;
 }
 
+.nav_icons {
+  margin: 0 20px 0 0;
+}
+
 .rgIcons {
   margin: 0 10px;
   cursor: pointer;

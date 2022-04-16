@@ -24,6 +24,7 @@ function App() {
   }
   return (
     <>
+      {/* <Header /> */}
       <ConnectedRouter history={history}>
         <Route path="/login" exact component={Login} />
         <Route path="/signup" exact component={Signup} />

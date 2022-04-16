@@ -1,5 +1,6 @@
 import React from 'react'
 import Sidebar from '../components/Sidebar'
+import Post from '../components/Post'
 import styled from 'styled-components'
 import { Grid, Input, Text, Image } from '../elements/index'
 
@@ -8,7 +9,9 @@ const Main = () => {
     <>
       <Grid isFlex>
         <Sidebar />
-        <Container></Container>
+        <Container>
+          <Post />
+        </Container>
       </Grid>
     </>
   )
