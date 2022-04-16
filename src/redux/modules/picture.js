@@ -1,9 +1,10 @@
-import produce from "immer";
-import { createAction, handleActions } from "redux-actions";
+//커밋
+import produce from 'immer';
+import { createAction, handleActions } from 'redux-actions';
 
 //액션
-const UPLOAD_IMAGE = "UPLOAD_IMAGE";
-const SET_PREVIEW = "SET_PREVIEW";
+const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+const SET_PREVIEW = 'SET_PREVIEW';
 
 //액션 발생
 const uploadImage = createAction(UPLOAD_IMAGE, (image) => ({ image }));
@@ -13,7 +14,7 @@ const setPreview = createAction(SET_PREVIEW, (preview) => ({
 
 //초기값
 const initialState = {
-  image: "",
+  image: '',
   uploading: false,
   preview: null,
   video: null,

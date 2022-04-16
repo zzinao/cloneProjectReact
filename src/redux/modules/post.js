@@ -1,12 +1,13 @@
-import axios from "axios";
-import produce from "immer";
+//커밋
+import axios from 'axios';
+import produce from 'immer';
 
-import { createAction, handleActions } from "redux-actions";
+import { createAction, handleActions } from 'redux-actions';
 
 //액션
-const ADD_POST = "ADD_POST";
-const GET_POST = "GET_POST";
-const EDIT_POST = "EDIT_POST";
+const ADD_POST = 'ADD_POST';
+const GET_POST = 'GET_POST';
+const EDIT_POST = 'EDIT_POST';
 
 //액션 생성
 const addPost = createAction(ADD_POST, (post) => ({ post }));
@@ -29,16 +30,16 @@ const addPostDB = (formData) => {
       formData,
     };
     await axios({
-      method: "post",
-      url: "https://reqres.in/api/users",
+      method: 'post',
+      url: 'https://reqres.in/api/users',
       //   url: 'api/post'
       data: {
-        name: "morpheus",
-        job: "leader",
+        name: 'morpheus',
+        job: 'leader',
       },
       //    formData,
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     })
       .then((res) => {
@@ -47,7 +48,7 @@ const addPostDB = (formData) => {
         // history.push("/main");
       })
       .catch((err) => {
-        console.log("게시물작성실패", err);
+        console.log('게시물작성실패', err);
       });
   };
 };
@@ -57,7 +58,7 @@ const getPostDB = () => {
   return async function (dispatch, getState, { history }) {
     await axios
       //   .get("/api/posts?postNum=1")
-      .get("https://reqres.in/api/unknown")
+      .get('https://reqres.in/api/unknown')
       .then((res) => {
         let _posts = [];
         res.data.posts.forEach((posts) => {
@@ -75,7 +76,7 @@ const getPostDB = () => {
 const editPostDB = (postNum, formData) => {
   return async function (dispatch, getState, { history }) {
     if (!postNum) {
-      console.log("게시물 정보를 찾을 수 없어요.");
+      console.log('게시물 정보를 찾을 수 없어요.');
       return;
     }
     const _post_index = getState().post.list.findIndex(
@@ -88,18 +89,18 @@ const editPostDB = (postNum, formData) => {
     };
 
     await axios({
-      method: "post",
+      method: 'post',
       //   url: "/api/posts?postNum=1",
-      url: "https://reqres.in/api/users/2",
+      url: 'https://reqres.in/api/users/2',
       data: formData,
       headers: {
-        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
       .then((res) => {
         dispatch(editPost(post));
-        history.push("/main");
+        history.push('/main');
       })
       .catch((err) => {
         console.log(err);

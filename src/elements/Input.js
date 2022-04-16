@@ -1,7 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+//커밋
+import React from 'react';
+import styled from 'styled-components';
 
-import { Text, Grid } from "./";
+import { Text, Grid } from './';
 
 const Input = (props) => {
   const { label, placeholder, _onChange, type, multiLine, value } = props;
@@ -9,7 +10,7 @@ const Input = (props) => {
   if (multiLine) {
     return (
       <Grid>
-        {label && <Text margin="0px">{label}</Text>}{" "}
+        {label && <Text margin='0px'>{label}</Text>}{' '}
         {/*라벨에 조건문을 걸어서 글을 쓸때만 나오게 합니다.*/}
         <ElTextarea
           rows={5}
@@ -24,7 +25,7 @@ const Input = (props) => {
   return (
     <React.Fragment>
       <Grid>
-        {label && <Text margin="0px">{label}</Text>}{" "}
+        {label && <Text margin='0px'>{label}</Text>}{' '}
         {/*라벨에 조건문을 걸어서 글을 쓸때만 나오게 합니다.*/}
         <ElInput type={type} placeholder={placeholder} onChange={_onChange} />
       </Grid>
@@ -35,9 +36,9 @@ const Input = (props) => {
 Input.defaultProps = {
   multiLine: false,
   label: false,
-  placeholder: "텍스트를 입력해주세요.",
-  type: "text",
-  value: "",
+  placeholder: '텍스트를 입력해주세요.',
+  type: 'text',
+  value: '',
   _onChange: () => {},
 };
 

@@ -1,6 +1,7 @@
-import { normalizeUnits } from "moment";
-import React from "react";
-import styled from "styled-components";
+//커밋
+import { normalizeUnits } from 'moment';
+import React from 'react';
+import styled from 'styled-components';
 
 const Grid_ = (props) => {
   const {
@@ -43,8 +44,8 @@ const Grid_ = (props) => {
 Grid_.defaultProps = {
   children: null,
   is_flex: false,
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
   padding: false,
   margin: false,
   border: false,
@@ -60,21 +61,21 @@ const GridBox = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   box-sizing: border-box;
-  ${(props) => (props.padding ? `padding: ${props.padding};` : "")}
-  ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
-  ${(props) => (props.border ? `border: ${props.border};` : "")}
-  ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}
+  ${(props) => (props.padding ? `padding: ${props.padding};` : '')}
+  ${(props) => (props.margin ? `margin: ${props.margin};` : '')}
+  ${(props) => (props.border ? `border: ${props.border};` : '')}
+  ${(props) => (props.bg ? `background-color: ${props.bg};` : '')}
   ${(props) =>
     props.is_flex
       ? `display:flex; align-items:center; justify-content:space-between;`
-      : ""}
-  ${(props) => (props.center ? `text-align:center;` : "")}
-  ${(props) => (props.right ? `text-align:right;` : "")}
-  ${(props) => (props.scroll ? `overflow-y:scroll;` : "")}
+      : ''}
+  ${(props) => (props.center ? `text-align:center;` : '')}
+  ${(props) => (props.right ? `text-align:right;` : '')}
+  ${(props) => (props.scroll ? `overflow-y:scroll;` : '')}
   ${(props) =>
     props.fix
       ? `position:fixed; top:0; left:0; width:100%; height:100px; z-index:1;`
-      : ""}
+      : ''}
 `;
 
 export default Grid_;
