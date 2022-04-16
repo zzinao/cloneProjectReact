@@ -62,7 +62,7 @@ const Header = (props) => {
                 size="24"
                 color="#fff"
                 onClick={() => {
-                  dispatchEvent(userActions.logoutDB({}))
+                  dispatch(userActions.logOutDB({}))
                 }}
               />
               <Image />

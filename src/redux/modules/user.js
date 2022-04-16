@@ -128,7 +128,7 @@ const loginDB = (dic) => {
 const logOutDB = (user) => {
   return async function (dispatch, getState, { history }) {
     console.log(history)
-    removeToken('token')
+    removeToken()
     dispatch(logOut(user))
     alert('로그아웃 되었습니다')
     history.replace('/login')
@@ -149,6 +149,7 @@ export default handleActions(
       produce(state, (draft) => {
         localStorage.removeItem('token')
         draft.is_login = false
+        draft.user = null
       }),
   },
   initialState,
