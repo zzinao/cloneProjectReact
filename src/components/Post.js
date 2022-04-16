@@ -4,28 +4,13 @@ import styled from 'styled-components'
 
 const Post = (props) => {
   return (
-    // <div className="video">
-    //   <div ClassName="video_top">
-    //     <img src="" alt="" />
-    //   </div>
-    //   <div className="video_title">Create</div>
-    //   <div className="video_details">
-    //     <span>조회수 5회</span>
-    //     <span>5일 전</span>
-    //   </div>
-    //   <div className="video_channel">
-    //     <img src="" alt="" />
-    //     <p>유저 닉네임</p>
-    //   </div>
-    // </div>
-
     <Container>
       <Preview />
       <Parent>
-        <Profile />
+        <Image shape="profile" src={props.src} margin="5px 20px 0 0" />
         <TitleBox>
           <Text margin="0" size="16px" weight="700" color="#fff">
-            타이틀 제목이 들어갈거임
+            여기에 타이틀이 들어갑니다요
           </Text>
           <Text margin="3px 0" size="14px" color="#aaa" weight="500">
             항해 클론 5조
@@ -37,6 +22,19 @@ const Post = (props) => {
       </Parent>
     </Container>
   )
+}
+//포스트 시간 변환 필요
+Post.defaultProps = {
+  post: [
+    {
+      postTitle: '드림코딩 자바스크립트 뽀개기',
+      postCnt: 100,
+      postDate: '3시간 전',
+      userInfo: {
+        userNick: '드림코딩엘리',
+      },
+    },
+  ],
 }
 
 const Container = styled.div`

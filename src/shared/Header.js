@@ -57,7 +57,7 @@ const Header = (props) => {
                     dispatch(userActions.logOutDB({}))
                   }}
                 />
-                <Image />
+                <Image shape="profile" src={props.src} />
               </Grid>
               <Grid isFlex></Grid>
             </Grid>
@@ -85,7 +85,7 @@ const Header = (props) => {
           <Search />
 
           <Grid isFlex_end>
-            <Grid isFlex margin="0 30px">
+            <Grid isFlex margin="0x">
               <Grid isFlex marign="0 30px">
                 <MdVideocam size="24" color="#fff" className="rgIcons" />
               </Grid>

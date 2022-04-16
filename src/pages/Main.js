@@ -3,10 +3,12 @@ import Sidebar from '../components/Sidebar'
 import PostList from '../components/PostList'
 import styled from 'styled-components'
 import { Grid, Input, Text, Image } from '../elements/index'
+import Header from '../shared/Header'
 
 const Main = () => {
   return (
     <>
+      <Header />
       <Grid isFlex>
         <Sidebar />
         <Container>

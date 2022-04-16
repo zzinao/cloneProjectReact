@@ -4,33 +4,25 @@ import { Text, Image, Grid } from '../elements/index'
 
 const SubList = (props) => {
   return (
-    <div>
+    <>
       <List isFlex_start>
-        <Profile></Profile>
+        <Image
+          shape="profile"
+          src={props.userSub.userProfile}
+          margin="0 20px 0 0"
+        />
         <Text size="14px" color="#fff">
-          구독자 이름
+          {props.userSub.userNick}
         </Text>
       </List>
-      <List isFlex_start>
-        <Profile></Profile>
-        <Text size="14px" color="#fff">
-          구독자 이름
-        </Text>
-      </List>
-      <List isFlex_start>
-        <Profile></Profile>
-        <Text size="14px" color="#fff">
-          구독자 이름
-        </Text>
-      </List>
-      <List isFlex_start>
-        <Profile></Profile>
-        <Text size="14px" color="#fff">
-          구독자 이름
-        </Text>
-      </List>
-    </div>
+    </>
   )
+}
+SubList.defaultProps = {
+  userSub: {
+    userNick: 'mark',
+    userProfile: 'https://pbs.twimg.com/media/Em9MilNUYAQRbLS.jpg',
+  },
 }
 
 const List = styled.div`
@@ -41,13 +33,6 @@ const List = styled.div`
   &: hover {
     background-color: #3d3d3d;
   }
-`
-const Profile = styled.div`
-  width: 30px;
-  height: 30px;
-  margin: 0 20px 0 0;
-  background-color: #aaa;
-  border-radius: 70%;
 `
 
 export default SubList
