@@ -5,5 +5,6 @@ import Image from './Image'
 import Input from './Input'
 import Text from './Text'
 import TextArea from './TextArea'
+import FocusInput from './FocusInput'
 
-export { Button, Grid, Image, Input, Text, TextArea, LikeIcons }
+export { Button, Grid, Image, Input, Text, TextArea, LikeIcons, FocusInput }
