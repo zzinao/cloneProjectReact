@@ -6,7 +6,7 @@ import { history } from '../redux/configureStore'
 import { actionCreator as userActions } from '../redux/modules/user'
 import logo from '../shared/img/google_logo.png'
 
-const Signup = () => {
+const Signup = (props) => {
   const dispatch = useDispatch()
   // 회원가입 state 관리
   const [signup, setSignup] = useState({})
@@ -31,10 +31,25 @@ const Signup = () => {
     setSignup((values) => ({ ...values, [id]: value }))
   }
 
+  //아이디 체크
+  const onChangeId = () => {
+    if (signup.id.length < 4 || signup.id.length > 10) {
+      setIdMessage('4자리 이상 10자리 미만으로 입력해주세요.')
+      setIsId(false)
+    } else {
+      setIdMessage('올바른 아이디 형식입니다 ☺️')
+      setIsId(true)
+    }
+  }
+
   const signUp = () => {
     if (!signup.id || !signup.pw || !signup.pwCheck || !signup.nick) {
       setSubmitted(true)
       return
+    }
+    if (isId && isName && isPw && isPwConfirm) {
+      alert('가입이 정상적으로 완료되었습니다!')
+      props.history.push('/login')
     }
     dispatch(userActions.signupDB(signup))
     console.log(signup)
@@ -57,8 +72,25 @@ const Signup = () => {
               padding="10px"
               placeholder="Email or Phone"
               _onChange={handleChange}
+              onChange={onChangeId}
             />
           </Grid>
+          {/* {signup.id.length > 0 && (
+            <Text
+              align="left"
+              size="12px"
+              margin="0"
+              color="#5DC2B1"
+              className={`message ${isId ? 'success' : 'error'}`}
+            >
+              {idMessage}
+            </Text>
+          )} */}
+          {submitted && !signup.id ? (
+            <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
+              아이디를 입력해주세요
+            </Text>
+          ) : null}
           <Grid>
             <Input
               fcBorder

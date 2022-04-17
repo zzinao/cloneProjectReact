@@ -10,8 +10,8 @@ import Search from '../components/Search'
 
 //icons
 import { FaBars } from 'react-icons/fa'
-import { RiLogoutBoxRLine } from 'react-icons/ri'
-import { MdApps, MdOutlineNotificationsNone, MdVideocam } from 'react-icons/md'
+import { RiLogoutBoxRLine, RiVideoAddFill } from 'react-icons/ri'
+import { MdApps, MdOutlineNotificationsNone } from 'react-icons/md'
 
 import { getToken } from './Token'
 
@@ -41,7 +41,12 @@ const Header = (props) => {
             <Grid isFlex_end>
               <Grid isFlex margin="0 30px">
                 <Grid isFlex marign="0 30px">
-                  <MdVideocam size="24" color="#fff" className="rgIcons" />
+                  <RiVideoAddFill
+                    size="24"
+                    color="#fff"
+                    className="rgIcons"
+                    onClick={() => history.push('/postWrite')}
+                  />
                 </Grid>
                 <MdApps className="rgIcons" size="24" color="#fff" />
                 <MdOutlineNotificationsNone
@@ -87,7 +92,12 @@ const Header = (props) => {
           <Grid isFlex_end>
             <Grid isFlex margin="0x">
               <Grid isFlex marign="0 30px">
-                <MdVideocam size="24" color="#fff" className="rgIcons" />
+                <RiVideoAddFill
+                  size="24"
+                  color="#fff"
+                  className="rgIcons"
+                  onClick={() => history.push('/postWrite')}
+                />
               </Grid>
               <MdApps className="rgIcons" size="24" color="#fff" />
               <MdOutlineNotificationsNone
@@ -95,14 +105,13 @@ const Header = (props) => {
                 size="24"
                 color="#fff"
               />
-              <Image />
             </Grid>
             <Grid isFlex>
               <Button
                 bg="#0583F2"
                 width="100px"
                 margin="0 20px"
-                onClick={() => {
+                _onClick={() => {
                   history.push('/login')
                 }}
               >

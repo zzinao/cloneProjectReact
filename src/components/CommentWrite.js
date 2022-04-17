@@ -1,16 +1,29 @@
 import React from 'react'
-import { Grid, Image } from '../elements/index'
+import { Grid, Image, Button } from '../elements/index'
 import styled from 'styled-components'
 
 //코멘트 쓰는 곳
+//인풋 포커스 시 취소, 댓글 버튼 나타나야함
 const CommentWrite = (props) => {
   return (
-    <Grid isFlex_start>
-      <Image shape="profile" src={props.src} size="40" />
-      <InputFiled type="text" placeholder="댓글 추가..." />
-    </Grid>
+    <>
+      <Contanier>
+        <Grid isFlex_start>
+          <Image shape="profile" src={props.src} size="40" />
+          <InputFiled type="text" placeholder="댓글 추가..." />
+        </Grid>
+        <Grid isFlex_end margin="20px">
+          <Button text="취소" width="70px" margin="0 10px"></Button>
+          <Button text="댓글" width="70px"></Button>
+        </Grid>
+      </Contanier>
+    </>
   )
 }
+
+const Contanier = styled.div`
+  width: 90%;
+`
 
 const InputFiled = styled.input`
   width: 100%;
@@ -24,7 +37,6 @@ const InputFiled = styled.input`
   color: #fff;
   padding: 0 20px;
   font-size: 15px;
-  width: 90%;
   &:focus {
     outline: none;
     border-bottom: 2px solid #fff;

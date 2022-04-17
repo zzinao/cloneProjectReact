@@ -9,14 +9,6 @@ const PostList = (props) => {
       <Post />
       <Post />
       <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
     </VideoList>
   )
 }

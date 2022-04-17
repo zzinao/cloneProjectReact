@@ -86,7 +86,7 @@ const Login = (props) => {
           Create an account
         </Text>
       </Container>
-      <GlobalStyle></GlobalStyle>
+      <GlobalStyle />
     </>
   )
 }
