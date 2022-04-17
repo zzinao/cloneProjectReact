@@ -36,8 +36,7 @@ Image.defaultProps = {
   src: 'https://i.pinimg.com/564x/fa/be/26/fabe26775b55a71fd1426f88b5a13e7b.jpg',
   src_01:
     'https://image.msscdn.net/images/style/detail/26197/detail_26197_1_500.jpg',
-  src_02:
-    'https://image.msscdn.net/images/prd_img/20210522/1962786/detail_1962786_1_500.jpg',
+  src_02: '',
   size: 36,
   border: false,
 };
