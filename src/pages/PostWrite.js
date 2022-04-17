@@ -1,4 +1,3 @@
-//커밋
 // 작성과 수정 동시에 처리
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +5,7 @@ import { Button, Grid, Image, Input } from '../elements';
 import { actionCreators as postActions } from '../redux/modules/post';
 import { actionCreators as imageActions } from '../redux/modules/picture';
 import { actionCreators as videoActions } from '../redux/modules/picture';
-// ㅇㅇ
+
 const PostWrite = (props) => {
   const dispatch = useDispatch();
   const { history } = props;
@@ -22,7 +21,7 @@ const PostWrite = (props) => {
   useEffect(() => {
     if (is_edit && !_post) {
       console.log('게시물 정보가 없습니다.');
-      history.goBack();
+      // history.goBack();
       return;
     }
     if (is_edit) {
@@ -34,7 +33,7 @@ const PostWrite = (props) => {
 
   //썸네일 이미지 업로드
   const imageFileInput = useRef(null);
-  const selectImage = (e) => {
+  const selectImage = () => {
     const reader = new FileReader();
     const file = imageFileInput.current.files[0];
 
@@ -48,7 +47,7 @@ const PostWrite = (props) => {
 
   //동영상 업로드
   const videoFileInput = useRef(null);
-  const selectVideo = (e) => {
+  const selectVideo = () => {
     const reader = new FileReader();
     const file = videoFileInput.current.files[0];
 
@@ -61,20 +60,21 @@ const PostWrite = (props) => {
   const changeTitle = (e) => {
     setPostTitle(e.target.value);
   };
+
   const changeContent = (e) => {
     setPostDesc(e.target.value);
   };
-
+  console.log(postTitle, postDesc);
   // 생성 블록
   const addPost = () => {
-    const postImage = imageFileInput.current.files[0];
+    const postThumb = imageFileInput.current.files[0];
     const postVideo = videoFileInput.current.files[0];
 
     const formData = new FormData();
 
     formData.append('postTitle', postTitle);
     formData.append('postDesc', postDesc);
-    formData.append('postImage', postImage);
+    formData.append('postThumb', postThumb);
     formData.append('postVideo', postVideo);
 
     return dispatch(postActions.addPostDB(formData));
@@ -82,14 +82,14 @@ const PostWrite = (props) => {
 
   //수정 블록
   const editPost = () => {
-    const postImage = imageFileInput.current.files[0];
+    const postThumb = imageFileInput.current.files[0];
     const postVideo = videoFileInput.current.files[0];
 
     const formData = new FormData();
 
     formData.append('postTitle', postTitle);
     formData.append('postDesc', postDesc);
-    formData.append('postImage', postImage);
+    formData.append('postThumb', postThumb);
     formData.append('postVideo', postVideo);
 
     return dispatch(postActions.editPostDB(postNum, formData));
@@ -117,11 +117,10 @@ const PostWrite = (props) => {
           </Grid>
           {/* 동영상 */}
           <input
+            type='file'
             onChange={selectVideo}
             ref={videoFileInput}
             disabled={is_uploading}
-            id='video'
-            type='file'
           />
           <Grid center>
             <Grid width='20%'>
