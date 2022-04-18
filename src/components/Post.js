@@ -2,17 +2,19 @@ import React from 'react';
 import { Grid, Text, Image } from '../elements/index';
 import styled from 'styled-components';
 import { history } from '../redux/configureStore';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/lazy';
 
 const Post = (props) => {
   return (
     <Container
+      // 로그인 시에만 보여주기 기능 구현중
+      // {props.is_me}
       onClick={() => {
         history.push('/watch');
       }}
     >
       {/* <Preview /> */}
-      <ReactPlayer url={props.post.postVideo} muted='true' playing='true' />
+      <ReactPlayer url={props.postVideo} playing={false} muted={false} />
       <Parent>
         <Image shape='profile' src={props.src} margin='5px 20px 0 0' />
         <TitleBox>

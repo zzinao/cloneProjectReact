@@ -11,6 +11,8 @@ const Main = () => {
       <Header />
       <Grid isFlex>
         <Container>
+          {/* 로그인 했을 시 포스트 보여주기. 맵핑은 나중에 하기 */}
+          {/* <Post is_me /> */}
           <PostList />
         </Container>
       </Grid>

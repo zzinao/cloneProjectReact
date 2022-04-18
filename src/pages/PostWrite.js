@@ -80,10 +80,13 @@ const PostWrite = (props) => {
 
     const formData = new FormData();
 
+    formData.append('postVideo', postVideo);
+    formData.append('postThumb', postThumb);
     formData.append('postTitle', postTitle);
     formData.append('postDesc', postDesc);
-    formData.append('postThumb', postThumb);
-    formData.append('postVideo', postVideo);
+
+    // console.log(postVideo);
+    console.log(postThumb);
 
     return dispatch(postActions.addPostDB(formData));
   };
@@ -95,10 +98,10 @@ const PostWrite = (props) => {
 
     const formData = new FormData();
 
+    formData.append('postVideo', postVideo);
+    formData.append('postThumb', postThumb);
     formData.append('postTitle', postTitle);
     formData.append('postDesc', postDesc);
-    formData.append('postThumb', postThumb);
-    formData.append('postVideo', postVideo);
 
     return dispatch(postActions.editPostDB(postNum, formData));
   };

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import produce from 'immer';
+import { setToken } from '../../shared/Token';
 
 import { createAction, handleActions } from 'redux-actions';
 
@@ -43,10 +44,11 @@ const addPostDB = (formData) => {
       data: formData,
       headers: {
         'Content-Type': 'multipart/form-data',
-        // Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer${localStorage.getItem('token')}`,
       },
     })
       .then((res) => {
+        console.log('token');
         dispatch(addPost(_post));
 
         // history.push("/main");
@@ -58,11 +60,11 @@ const addPostDB = (formData) => {
 };
 
 //조회
-const getPostDB = () => {
+const getPostDB = (num) => {
   return async function (dispatch, getState, { history }) {
     await axios
-      .get('/api/posts?postNum=1')
-      // .get('https://reqres.in/api/unknown')
+      // 보류
+      .get(`http://15.164.211.148/api/posts?postNum=${num}`)
       .then((res) => {
         let _posts = [];
         res.data.posts.forEach((posts) => {
@@ -77,10 +79,10 @@ const getPostDB = () => {
 };
 
 //포스트 및 디테일
-const getOnePostDB = (id) => {
+const getOnePostDB = (num) => {
   return async function (dispatch, getState, { history }) {
     await axios
-      .get(`/api/posts?postNum=1`)
+      .get(`http://15.164.211.148/api/posts?postNum=${num}`)
       .then((res) => {
         let post = res.data.detail;
         dispatch(getOnePost(post));
@@ -92,15 +94,13 @@ const getOnePostDB = (id) => {
 };
 
 //수정
-const editPostDB = (postNum, formData) => {
+const editPostDB = (num, formData) => {
   return async function (dispatch, getState, { history }) {
-    if (!postNum) {
+    if (!num) {
       console.log('게시물 정보를 찾을 수 없어요.');
       return;
     }
-    const _post_index = getState().post.list.findIndex(
-      (p) => p.postNum === postNum
-    );
+    const _post_index = getState().post.list.findIndex((p) => p.num === num);
     const _post = getState().post.list[_post_index];
     let post = {
       ..._post,
@@ -108,8 +108,8 @@ const editPostDB = (postNum, formData) => {
     };
 
     await axios({
-      method: 'post',
-      url: '/api/posts?postNum=1',
+      method: 'put',
+      url: `http://15.164.211.148/api/posts?postNum=${num}`,
       // url: 'https://reqres.in/api/users/2',
       data: formData,
       headers: {
