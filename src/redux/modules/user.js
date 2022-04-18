@@ -63,11 +63,12 @@ const signupDB = (dic) => {
           userPw: userPw,
           userNick: userNick,
         }),
-        // { headers: { 'Content-Type': `application/json` } },
+        { headers: { 'Content-Type': `application/json` } },
       )
       .then((res) => {
         console.log(res.data)
         dispatch(signUp())
+        history.replace('/login')
       })
       .catch((error) => {
         console.log('에러에러', error)
@@ -109,12 +110,13 @@ const loginDB = (dic) => {
       })
       //토큰 받아서 로컬스토리지에 저장!
       .then((res) => {
-        if (res.data.token) {
+        console.log(res)
+        if (res.data.loginToken) {
           console.log(res)
-          const accessToken = res.data.token
+          const accessToken = res.data.loginToken
           localStorage.setItem('token', accessToken)
           dispatch(logIn(accessToken))
-          history.push('/')
+          history.replace('/')
         }
       })
       .catch((error) => {
