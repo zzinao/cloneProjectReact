@@ -23,7 +23,7 @@ const Detail = (props) => {
           </Text>
           <Grid isFlex>
             <Text color='#aaa' size='14px' margin='10px 0 20px'>
-              조회수 23423553회 * 최초 공개 2022.4.1{' '}
+              조회수 23423553회 &nbsp; 최초 공개 2022.4.1
             </Text>
             <Grid isFlex>
               <LikeIcon />
