@@ -22,7 +22,7 @@ const Header = (props) => {
   const token = getToken ? true : false
   const is_login = useSelector((state) => state.user.is_login)
 
-  if (token && is_login) {
+  if (token) {
     return (
       <HeaderContainer>
         <Grid className="header">

@@ -10,6 +10,7 @@ const Main = () => {
     <>
       <Header />
       <Grid isFlex>
+        <Sidebar />
         <Container>
           <PostList />
         </Container>

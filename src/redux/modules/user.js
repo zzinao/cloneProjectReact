@@ -28,26 +28,6 @@ const logOut = createAction(LOG_OUT, (user) => ({ user }))
 
 //MIDDLE WARES
 
-//회원가입 reqres로 테스트
-// const signupDB = (dic) => {
-//   return async function (dispatch, getState, { history }) {
-//     //변수 재할당
-//     const { id: userId, pw: userPw, nick: userNick } = dic
-//     await axios
-//       .post(`https://reqres.in/api/register`, {
-//         email: userId,
-//         password: userPw,
-//       })
-//       .then((res) => {
-//         console.log(res.data)
-//         dispatch(signUp())
-//         history.push('/login')
-//       })
-//       .catch((error) => {
-//         console.log('에러에러', error)
-//       })
-//   }
-// }
 //회원가입 API 받으면 테스트~
 const signupDB = (dic) => {
   return async function (dispatch, getState, { history }) {
@@ -57,7 +37,7 @@ const signupDB = (dic) => {
 
     await axios
       .post(
-        'http://15.164.211.148/user/signup',
+        `${BASE_URL}/user/signup`,
         JSON.stringify({
           userId: userId,
           userPw: userPw,
@@ -75,30 +55,6 @@ const signupDB = (dic) => {
       })
   }
 }
-
-//로그인 reqres로 테스트
-// const loginDB = (dic) => {
-//   return async function (dispatch, getState, { history }) {
-//     const { id: userId, pw: userPw } = dic
-//     await axios
-//       .post('https://reqres.in/api/login', {
-//         email: userId,
-//         password: userPw,
-//       })
-//       .then((res) => {
-//         if (res.data.token) {
-//           console.log(res)
-//           const accessToken = res.data.token
-//           localStorage.setItem('token', accessToken)
-//           dispatch(logIn(accessToken))
-//           history.push('/')
-//         }
-//       })
-//       .catch(function (error) {
-//         console.log('에러에러', error)
-//       })
-//   }
-// }
 
 // 로그인 API 받으면 테스트 할 것
 const loginDB = (dic) => {
