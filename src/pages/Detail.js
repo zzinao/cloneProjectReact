@@ -5,6 +5,7 @@ import DisLikeIcon from '../components/DisLikeIcon'
 import Header from '../shared/Header'
 import styled from 'styled-components'
 import CommentWrite from '../components/CommentWrite'
+import CommentList from '../components/CommentList'
 
 const Detail = (props) => {
   return (
@@ -69,6 +70,7 @@ const Detail = (props) => {
             댓글 3432개
           </Text>
           <CommentWrite />
+          <CommentList />
         </CommentBox>
       </Container>
     </>
