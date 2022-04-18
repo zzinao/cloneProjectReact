@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Text, Image } from '../elements/index';
 import styled from 'styled-components';
 import { history } from '../redux/configureStore';
+import ReactPlayer from 'react-player';
 
 const Post = (props) => {
   return (
@@ -10,18 +11,22 @@ const Post = (props) => {
         history.push('/watch');
       }}
     >
-      <Preview />
+      {/* <Preview /> */}
+      <ReactPlayer url={props.post.postVideo} muted='true' playing='true' />
       <Parent>
         <Image shape='profile' src={props.src} margin='5px 20px 0 0' />
         <TitleBox>
           <Text margin='0' size='16px' weight='700' color='#fff'>
-            여기에 타이틀이 들어갑니다요
+            영상 제목
+            {/* {props.post.postTitle} */}
           </Text>
           <Text margin='3px 0' size='14px' color='#aaa' weight='500'>
-            항해 클론 5조
+            {/* {props.post.unserInfo.userNick} */}
+            닉네임
           </Text>
           <Text margin='0' color='#aaa' size='14px'>
             조회수 100만회 &nbsp; 3일 전
+            {/* {props.post.postCnt} &nbsp; {props.post.postDate} */}
           </Text>
         </TitleBox>
       </Parent>
@@ -35,6 +40,7 @@ Post.defaultProps = {
       postTitle: '드림코딩 자바스크립트 뽀개기',
       postCnt: 100,
       postDate: '3시간 전',
+      postVideo: 'https://www.youtube.com/watch?v=wcsVjmHrUQg',
       userInfo: {
         userNick: '드림코딩엘리',
       },

@@ -24,16 +24,22 @@ const initialState = {
   detail: [],
 };
 
+// const initialPost = {
+//   image: '',
+//   content: '',
+// };
+
 //미들웨어
 //생성
 const addPostDB = (formData) => {
   return async function (dispatch, getState, { history }) {
     let _post = {
+      // ...initialPost,
       formData,
     };
     await axios({
       method: 'post',
-      url: 'https://95bdde78-b028-4db6-b139-9f7e8f06b2e5.mock.pstmn.io/post',
+      url: 'http://15.164.211.148/api/posts',
       data: formData,
       headers: {
         'Content-Type': 'multipart/form-data',
