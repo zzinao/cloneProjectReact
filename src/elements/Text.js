@@ -1,38 +1,35 @@
-//커밋
 import React from 'react';
 import styled from 'styled-components';
 
 const Text = (props) => {
-  const { children, bold, color, size, margin, textAlign, display } = props;
-  const styles = {
-    bold: bold,
-    color: color,
-    size: size,
-    margin: margin,
-    textAlign: textAlign,
-    display: display,
-  };
-
-  return <P {...styles}>{children}</P>;
+  const { children, ...styles } = props;
+  return (
+    <>
+      <Ptag {...styles}>{children}</Ptag>
+    </>
+  );
 };
 
 Text.defaultProps = {
   children: null,
   bold: false,
-  color: '#67686a',
-  size: '14px',
-  margin: '0px',
-  textAlign: false,
-  display: '',
+  size: '16px',
+  color: '#222831',
+  margin: false,
+  center: false,
+  weight: false,
+  _cusor: false,
 };
 
-const P = styled.p`
-  display: ${(props) => props.display};
+const Ptag = styled.p`
   color: ${(props) => props.color};
-  font-size: ${(props) => props.size};
-  font-weight: ${(props) => (props.bold ? '600' : '400')};
-  margin: ${(props) => props.margin};
-  text-align: ${(props) => props.textAlign};
+  ${(props) => (props.size ? `font-size: ${props.size};` : null)}
+  ${(props) =>
+    props.weight ? `font-weight:${props.weight};` : 'font-weight: 400;'};
+  ${(props) => (props.margin ? `margin:${props.margin};` : '')}
+  ${(props) => (props.center ? `text-align: center;` : '')}
+  ${(props) => (props.align ? `text-align: ${props.align};` : '')}
+  ${(props) => (props._cursor ? `cursor: pointer;` : null)};
 `;
 
 export default Text;

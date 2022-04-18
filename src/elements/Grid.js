@@ -1,81 +1,68 @@
-//커밋
-import { normalizeUnits } from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 
-const Grid_ = (props) => {
-  const {
-    children,
-    is_flex,
-    width,
-    height,
-    padding,
-    margin,
-    border,
-    bg,
-    center,
-    right,
-    scroll,
-    _onClick,
-    fix,
-  } = props;
-
-  const styles = {
-    is_flex: is_flex,
-    width: width,
-    height: height,
-    margin: margin,
-    padding: padding,
-    border: border,
-    bg: bg,
-    center: center,
-    scroll: scroll,
-    right: right,
-    fix: fix,
-  };
-
+const Grid = (props) => {
+  const { children, _onClick, _id, ...styles } = props;
+  if (_id) {
+    return (
+      <GridBox onClick={_onClick} id={_id} {...styles}>
+        {children}
+      </GridBox>
+    );
+  }
   return (
-    <GridBox {...styles} onClick={_onClick}>
+    <GridBox onClick={_onClick} {...styles}>
       {children}
     </GridBox>
   );
 };
 
-Grid_.defaultProps = {
+Grid.defaultProps = {
+  _id: '',
   children: null,
-  is_flex: false,
+  isFlex: false,
+  isFlex_center: false,
+  isFlex_start: false,
+  isFlex_end: false,
   width: '100%',
-  height: '100%',
   padding: false,
   margin: false,
-  border: false,
   bg: false,
   center: false,
-  right: false,
-  scroll: false,
-  fix: false,
   _onClick: () => {},
+  _cursor: false,
+  flexColumn: false,
 };
 
 const GridBox = styled.div`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
+  ${(props) => (props._cursor ? `cursor: pointer;` : null)};
+  ${(props) =>
+    props.isFlex
+      ? `display: flex; align-items: center; justify-content: space-between;`
+      : null}
+  ${(props) =>
+    props.isFlex_center
+      ? `display: flex; align-items: center; justify-content: center;`
+      : null}
+${(props) =>
+    props.isFlex_start
+      ? `display: flex; align-items: center; justify-content: start;`
+      : null}
+${(props) =>
+    props.isFlex_end
+      ? `display: flex; align-items: center; justify-content: end;`
+      : null}
+  height: 100%;
   box-sizing: border-box;
-  ${(props) => (props.padding ? `padding: ${props.padding};` : '')}
-  ${(props) => (props.margin ? `margin: ${props.margin};` : '')}
-  ${(props) => (props.border ? `border: ${props.border};` : '')}
-  ${(props) => (props.bg ? `background-color: ${props.bg};` : '')}
+  ${(props) => (props.padding ? `padding: ${props.padding};` : null)}
+  ${(props) => (props.margin ? `margin: ${props.margin};` : null)}
+  ${(props) => (props.bg ? `background: ${props.bg};` : null)}
+  ${(props) => (props.center ? `text-align: center;` : '')}
+  ${(props) => (props.float ? `float: left` : null)}
   ${(props) =>
-    props.is_flex
-      ? `display:flex; align-items:center; justify-content:space-between;`
-      : ''}
-  ${(props) => (props.center ? `text-align:center;` : '')}
-  ${(props) => (props.right ? `text-align:right;` : '')}
-  ${(props) => (props.scroll ? `overflow-y:scroll;` : '')}
-  ${(props) =>
-    props.fix
-      ? `position:fixed; top:0; left:0; width:100%; height:100px; z-index:1;`
-      : ''}
+    props.flexColumn
+      ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
+      : null};
 `;
 
-export default Grid_;
+export default Grid;

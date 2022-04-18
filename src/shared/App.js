@@ -19,7 +19,7 @@ function App() {
           <Route path='/postWrite/:num' exact component={PostWrite} />
           {/* detail에서 detail/:num으로 바꿀예정 */}
           {/* <Route path='/detail/:num' exact component={Detail} /> */}
-          <Route path='/detail' exact component={Detail} />
+          <Route path='/watch' exact component={Detail} />
         </ConnectedRouter>
       </div>
     </>

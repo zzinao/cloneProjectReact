@@ -1,9 +1,10 @@
-//커밋
 import React from 'react';
 import styled from 'styled-components';
+import profile from '../shared/img/black_profile.png';
 
 const Image = (props) => {
-  const { width, shape, src, src_01, src_02, size, border } = props;
+  const { width, shape, src, src_01, src_02, size, border, margin } = props;
+
   const styles = {
     src: src,
     src_01: src_01,
@@ -11,8 +12,12 @@ const Image = (props) => {
     size: size,
     border: border,
     width: width,
+    margin: margin,
   };
 
+  if (shape === 'profile') {
+    return <ImageCircle {...styles}></ImageCircle>;
+  }
   if (shape === 'rectangle') {
     return (
       <AspectOutter>
@@ -20,31 +25,28 @@ const Image = (props) => {
       </AspectOutter>
     );
   }
-
-  if (shape === 'circle') {
-    return <ImageCircle {...styles}></ImageCircle>;
-  }
-
   return (
-    <React.Fragment>
+    <>
       <ImageDefault {...styles}></ImageDefault>
-    </React.Fragment>
+    </>
   );
 };
+
 Image.defaultProps = {
   shape: '',
-  src: 'https://i.pinimg.com/564x/fa/be/26/fabe26775b55a71fd1426f88b5a13e7b.jpg',
+  src: 'https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
+
   src_01:
     'https://image.msscdn.net/images/style/detail/26197/detail_26197_1_500.jpg',
   src_02: '',
-  size: 36,
-  border: false,
+  margin: '',
+  size: 30,
+  width: '',
 };
 
 //기본 정사각형
 const ImageDefault = styled.div`
   width: 100%;
-  height: 90vh;
   background-image: url('${(props) => props.src}');
   background-size: contain;
   background-position: top;
@@ -53,11 +55,11 @@ const ImageDefault = styled.div`
 
 //4:3비율 직사각형
 const AspectOutter = styled.div`
-  width: 100%;
-  min-width: 250px;
+  min-width: 200px;
   /* border: 1px solid red; */
 `;
 const AspectInner = styled.div`
+  ${(props) => (props.width ? `width: ${props.width};` : '')}
   position: relative;
   padding-top: 100%;
   overflow: hidden;
@@ -73,12 +75,11 @@ const ImageCircle = styled.div`
   width: var(--size);
   height: var(--size);
   border-radius: var(--size);
-  ${(props) => (props.border ? `border: ${props.border};` : '')}
-
-  background-image: url("${(props) => props.src_01}");
+  background-image: url('${(props) => props.src}');
   background-size: cover;
-  background-position: top;
-  margin: 4px;
+  ${(props) => (props.margin ? `margin: ${props.margin};` : null)}
+  ${(props) => (props.border ? `border: ${props.border};` : '')}
+background-image: url("${(props) => props.src_01}");
 `;
 
 export default Image;
