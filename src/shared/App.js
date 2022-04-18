@@ -18,7 +18,7 @@ function App() {
           <Route path="/post" exact component={Post} />
           <Route path="/postWrite/:num" exact component={PostWrite} />
           {/* detail에서 detail/:num으로 바꿀예정 */}
-          {/* <Route path='/detail/:num' exact component={Detail} /> */}
+          <Route path="/detail/:num" exact component={Detail} />
           {/* watch로 경로 수정합니다~ */}
           <Route path="/watch" exact component={Detail} />
         </ConnectedRouter>

@@ -2,6 +2,7 @@ import React from 'react'
 import { Grid, Text, Image } from '../elements/index'
 import styled from 'styled-components'
 import { history } from '../redux/configureStore'
+import ReactPlayer from 'react-player/lazy'
 
 const Post = (props) => {
   return (
@@ -10,7 +11,8 @@ const Post = (props) => {
         history.push('/watch')
       }}
     >
-      <Preview />
+      {/* <Preview /> */}
+      <ReactPlayer url={props.postVideo} playing={false} muted={false} />
       <Parent>
         <Image shape="profile" src={props.src} margin="5px 20px 0 0" />
         <TitleBox>

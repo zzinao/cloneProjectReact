@@ -6,6 +6,7 @@ import Header from '../shared/Header'
 import styled from 'styled-components'
 import CommentWrite from '../components/CommentWrite'
 // import CommentList from '../components/CommentList'
+import Post from '../components/Post'
 
 const Detail = (props) => {
   return (
