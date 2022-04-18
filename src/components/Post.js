@@ -3,13 +3,13 @@ import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Grid, Text, Image } from '../elements';
-<container />
+<container />;
 const Post = (props) => {
   const postOne = useSelector((state) => state.post.detail);
   return (
     <React.Fragment>
       <Grid>
-        <ReactPlayer url={{data.postVideo}} />
+        <ReactPlayer url={{}} />
         {/* <video
           width='100%'
           height='600px'
@@ -28,7 +28,6 @@ const Post = (props) => {
   );
 };
 
-Post.defaultProps = {
-};
+Post.defaultProps = {};
 
 export default Post;
