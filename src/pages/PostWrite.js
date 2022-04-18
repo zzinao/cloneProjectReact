@@ -114,7 +114,7 @@ const PostWrite = (props) => {
           <Title>
             <Grid isFlex_start>
               <Text size="13px" color="#aaa" margin="10px">
-                설명
+                제목
               </Text>
 
               <FaRegQuestionCircle color="#aaa" />

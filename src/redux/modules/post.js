@@ -25,26 +25,27 @@ const initialState = {
   detail: [],
 }
 
-//미들웨어
-//생성
+//미들웨어 생성
 const addPostDB = (formData) => {
   return async function (dispatch, getState, { history }) {
     let _post = {
       formData,
     }
+    console.log(localStorage.getItem('token'))
+    console.log(formData)
     await axios({
       method: 'post',
-      url: 'https://95bdde78-b028-4db6-b139-9f7e8f06b2e5.mock.pstmn.io/post',
+      url: 'http://15.164.211.148/api/posts',
       data: formData,
       headers: {
         'Content-Type': 'multipart/form-data',
-        // Authorization: `Bearer ${localStorage.getItem('token')}`,
+        Authorization: `Bearer${localStorage.getItem('token')}`,
       },
     })
       .then((res) => {
         dispatch(addPost(_post))
-
-        // history.push("/main");
+        console.log('여깄음')
+        history.push('/main')
       })
       .catch((err) => {
         console.log('게시물작성실패', err)

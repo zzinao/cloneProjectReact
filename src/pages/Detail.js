@@ -5,7 +5,7 @@ import DisLikeIcon from '../components/DisLikeIcon'
 import Header from '../shared/Header'
 import styled from 'styled-components'
 import CommentWrite from '../components/CommentWrite'
-import CommentList from '../components/CommentList'
+// import CommentList from '../components/CommentList'
 
 const Detail = (props) => {
   return (
@@ -19,11 +19,11 @@ const Detail = (props) => {
           </Text>
           <Grid isFlex>
             <Text color="#aaa" size="14px" margin="10px 0 20px">
-              조회수 23423553회 &nbsp; 최초 공개 2022.4.1
+              조회수 23423553회 & nbsp; 최초 공개 2022.4.1
             </Text>
             <Grid isFlex>
-              <LikeIcon />
-              <DisLikeIcon />
+              {/* <LikeIcon />
+              <DisLikeIcon /> */}
               <Text color="#fff" weight="700" margin=" 0 8px">
                 공유
               </Text>
