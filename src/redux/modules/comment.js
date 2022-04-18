@@ -70,7 +70,6 @@ const initialState = {
 }
 
 //MIDDLE WARES
-
 const addCommentDB = (contents, postNum) => {
   return async function (dispatch, getState) {
     const _comments = {
@@ -111,6 +110,8 @@ export default handleActions(
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
+        console.log(draft.list)
+        console.log(action.payload)
         draft.list[action.payload.postNum].unshift(action.payload.comment)
       }),
     [DELETE_COMMENT]: (state, action) =>
@@ -125,5 +126,4 @@ export default handleActions(
 
 export const commentActions = {
   addCommentDB,
-  getCommentDB,
 }

@@ -101,6 +101,11 @@ const Signup = (props) => {
               placeholder="Nickname"
               _onChange={handleChange}
             />
+            {submitted && !signup.nick ? (
+              <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
+                닉네임을 입력해주세요
+              </Text>
+            ) : null}
             <Input
               fcBorder
               id="pw"
@@ -110,6 +115,11 @@ const Signup = (props) => {
               placeholder="Password"
               _onChange={handleChange}
             />
+            {submitted && !signup.pw ? (
+              <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
+                패스워드를 입력해주세요
+              </Text>
+            ) : null}
             <Input
               fcBorder
               id="pwCheck"
@@ -120,6 +130,11 @@ const Signup = (props) => {
               _onChange={handleChange}
             />
           </Grid>
+          {submitted && !signup.pwCheck ? (
+            <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
+              패스워드를 다시 입력해주세요
+            </Text>
+          ) : null}
           <Button bg="#0583F2" margin="20px 0 0" _onClick={signUp}>
             Sign up
           </Button>
@@ -157,7 +172,7 @@ const SignUpForm = styled.div`
   justify-conetent: center;
   flex-direction: column;
   text-align: center;
-  max-width: 400px;
+  width: 400px;
   border: 1px solid #eee;
   background-color: #f8fafb;
   border-radius: 15px;

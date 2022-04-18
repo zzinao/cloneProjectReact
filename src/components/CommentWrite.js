@@ -18,7 +18,6 @@ const CommentWrite = (props) => {
 
   const handleComment = (e) => {
     setComment(e.target.value)
-    console.log(e.target.value)
   }
 
   const addComment = () => {

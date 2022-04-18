@@ -10,7 +10,6 @@ const Main = () => {
     <>
       <Header />
       <Grid isFlex>
-        <Sidebar />
         <Container>
           <PostList />
         </Container>
@@ -21,7 +20,6 @@ const Main = () => {
 
 const Container = styled.div`
   background-color: #181818;
-  margin-left: 220px;
   width: 100%;
   height: 100vh;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,

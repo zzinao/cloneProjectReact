@@ -190,7 +190,6 @@ const PostWrite = (props) => {
                 disabled={is_uploading}
               />
             </PreviewBtn>
-
             <Image
               shape="rectangle"
               margin="30px 0 0"
@@ -214,7 +213,7 @@ const PostWrite = (props) => {
             ref={videoFileInput}
             disabled={is_uploading}
           />
-          <Grid isFlex>
+          <Grid>
             <Grid>
               {/* 미리보기 영상 */}
               <Image shape="rectangle" src_02={'https://ifh.cc/g/g0oyvr.png'} />

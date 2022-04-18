@@ -11,17 +11,17 @@ const CommentList = (props) => {
 
   const { postNum } = props
 
-  React.useEffect(() => {
-    if (!comment_list[postNum]) {
-      // 코멘트 정보가 없으면 불러오기
-      dispatch(commentActions.getCommentDB(postNum))
-    }
-  }, [])
+  // React.useEffect(() => {
+  //   if (!comment_list[postNum]) {
+  //     // 코멘트 정보가 없으면 불러오기
+  //     dispatch(commentActions.getCommentDB(postNum))
+  //   }
+  // }, [])
 
-  //값없어서 터지는 오류 방지
-  if (!comment_list[postNum] || !postNum) {
-    return null
-  }
+  // //값없어서 터지는 오류 방지
+  // if (!comment_list[postNum] || !postNum) {
+  //   return null
+  // }
 
   return (
     <React.Fragment>

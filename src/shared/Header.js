@@ -14,6 +14,7 @@ import { RiLogoutBoxRLine, RiVideoAddFill } from 'react-icons/ri'
 import { MdApps, MdOutlineNotificationsNone } from 'react-icons/md'
 
 import { getToken } from './Token'
+//분기 최소화 리팩토링 해야됨
 
 const Header = (props) => {
   const dispatch = useDispatch()

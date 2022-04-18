@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import profile from '../shared/img/black_profile.png'
 
 const Image = (props) => {
-  const { width, shape, src, src_01, src_02, size, border, margin } = props
+  const { shape, src, src_01, src_02, size, border, margin, minWidth } = props
 
   const styles = {
     src: src,
@@ -11,8 +11,8 @@ const Image = (props) => {
     src_02: src_02,
     size: size,
     border: border,
-    width: width,
     margin: margin,
+    minWidth: minWidth,
   }
 
   if (shape === 'profile') {
@@ -20,7 +20,7 @@ const Image = (props) => {
   }
   if (shape === 'rectangle') {
     return (
-      <AspectOutter>
+      <AspectOutter {...styles}>
         <AspectInner {...styles}></AspectInner>
       </AspectOutter>
     )
@@ -42,7 +42,7 @@ Image.defaultProps = {
   src_02: '',
   margin: '',
   size: 30,
-  width: '',
+  minWidth: '',
 }
 
 //기본 정사각형
@@ -56,13 +56,16 @@ const ImageDefault = styled.div`
 
 //4:3비율 직사각형
 const AspectOutter = styled.div`
-  min-width: 200px;
+  ${(props) =>
+    props.minWidth ? `min-width: ${props.minWidth}` : `min-width: 140px;`}
+  background-color: #eee;
   /* border: 1px solid red; */
 `
 const AspectInner = styled.div`
-${(props) => (props.width ? `width: ${props.width};` : '')}
   position: relative;
-  padding-top: 100%;
+  width: 100%;
+  height: 0;
+  padding-top: 70%;
   overflow: hidden;
   background-image: url('${(props) => props.src_02}');
   background-size: cover;

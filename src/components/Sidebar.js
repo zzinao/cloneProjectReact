@@ -2,10 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { Text, Image, Grid } from '../elements/index'
 import SubsList from './SubsList'
+import { Link } from 'react-router-dom'
+
 //icons
 import { RiHome5Fill, RiSaveLine } from 'react-icons/ri'
 import { MdOutlineSubscriptions, MdOutlineSmartDisplay } from 'react-icons/md'
 import { AiOutlineLike } from 'react-icons/ai'
+
 const Sidebar = (pros) => {
   return (
     <>
