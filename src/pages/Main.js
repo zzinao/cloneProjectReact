@@ -1,18 +1,19 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import PostList from '../components/PostList';
+import Post from '../components/Post';
 import styled from 'styled-components';
 import { Grid, Input, Text, Image } from '../elements/index';
 import Header from '../shared/Header';
+import ReactPlayer from 'react-player/lazy';
 
 const Main = () => {
   return (
     <>
       <Header />
       <Grid isFlex>
+        <Sidebar />
         <Container>
-          {/* 로그인 했을 시 포스트 보여주기. 맵핑은 나중에 하기 */}
-          {/* <Post is_me /> */}
           <PostList />
         </Container>
       </Grid>
@@ -26,5 +27,10 @@ const Container = styled.div`
   height: 100vh;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+
+  @media (max-width: 800px) {
+    width: 90px;
+  }
 `;
+
 export default Main;

@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
 const TextArea = (props) => {
-  return <></>;
-};
+  return <></>
+}
 
-TextArea.defaultProps = {};
+TextArea.defaultProps = {}
 
-export default TextArea;
+export default TextArea

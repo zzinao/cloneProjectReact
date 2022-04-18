@@ -1,38 +1,59 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Text, Image } from '../elements/index';
 import styled from 'styled-components';
+
 import { history } from '../redux/configureStore';
+import { actionCreators as postActions } from '../redux/modules/post';
+
 import ReactPlayer from 'react-player/lazy';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Post = (props) => {
+  const dispatch = useDispatch();
+
+  const post = useSelector((state) => state.post.list.post);
+  console.log(post);
+
+  useEffect(() => {
+    if (post.length !== 0) {
+      dispatch(postActions.getPostDB());
+    }
+  }, []);
+
+  console.log(post.postVideo);
   return (
-    <Container
-      // 로그인 시에만 보여주기 기능 구현중
-      // {props.is_me}
-      onClick={() => {
-        history.push('/watch');
-      }}
+    <
+      // onClick={() => {
+      //   history.push('/watch');
+      // }}
     >
-      {/* <Preview /> */}
-      <ReactPlayer url={props.postVideo} playing={false} muted={false} />
+      <Container>
+        <ReactPlayer
+          width='20%'
+          url={post.postVideo}
+          playing={true}
+          muted={true}
+          controls={true}
+        />
+      </Container>
       <Parent>
         <Image shape='profile' src={props.src} margin='5px 20px 0 0' />
         <TitleBox>
           <Text margin='0' size='16px' weight='700' color='#fff'>
-            영상 제목
-            {/* {props.post.postTitle} */}
+            {/* 제목이 있는곳 */}
+            {post.postTitle}
           </Text>
           <Text margin='3px 0' size='14px' color='#aaa' weight='500'>
-            {/* {props.post.unserInfo.userNick} */}
-            닉네임
+            {/* 항해 클론 5조 */}
+            {post.userNick}
           </Text>
           <Text margin='0' color='#aaa' size='14px'>
-            조회수 100만회 &nbsp; 3일 전
-            {/* {props.post.postCnt} &nbsp; {props.post.postDate} */}
+            {/* 조회수 100만회 &nbsp; 3일 전 */}
+            {post.postDate}
           </Text>
         </TitleBox>
       </Parent>
-    </Container>
+    </>
   );
 };
 //포스트 시간 변환 필요
@@ -42,7 +63,6 @@ Post.defaultProps = {
       postTitle: '드림코딩 자바스크립트 뽀개기',
       postCnt: 100,
       postDate: '3시간 전',
-      postVideo: 'https://www.youtube.com/watch?v=wcsVjmHrUQg',
       userInfo: {
         userNick: '드림코딩엘리',
       },
@@ -51,7 +71,7 @@ Post.defaultProps = {
 };
 
 const Container = styled.div`
-  width: 293px;
+  width: '293px;'
   margin: 20px;
   cursor: pointer;
 `;

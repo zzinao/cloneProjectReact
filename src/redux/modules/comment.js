@@ -1,34 +1,34 @@
-import { createAction, handleActions } from 'redux-actions';
-import { produce } from 'immer';
-import axios from 'axios';
-import { create } from 'lodash';
+import { createAction, handleActions } from 'redux-actions'
+import { produce } from 'immer'
+import axios from 'axios'
+import { create } from 'lodash'
 
 // const BASE_URL = ""
 
-const SET_COMMENT = 'SET_COMMENT';
-const ADD_COMMENT = 'ADD_COMMENT';
-const DELETE_COMMENT = 'DELETE_COMMENT';
-const UPDATE_COMMENT = 'UPDATE_COMMENT';
+const SET_COMMENT = 'SET_COMMENT'
+const ADD_COMMENT = 'ADD_COMMENT'
+const DELETE_COMMENT = 'DELETE_COMMENT'
+const UPDATE_COMMENT = 'UPDATE_COMMENT'
 
 const setComment = createAction(SET_COMMENT, (postNum, commentList) => ({
   postNum,
   commentList,
-}));
+}))
 
 const addComment = createAction(ADD_COMMENT, (postNum, comment) => ({
   postNum,
   comment,
-}));
+}))
 
 const deleteComment = createAction(DELETE_COMMENT, (commentNum, postNum) => ({
   commentNum,
   postNum,
-}));
+}))
 
 const updateComment = createAction(UPDATE_COMMENT, (commentNum, comment) => ({
   commentNum,
   comment,
-}));
+}))
 
 const initialState = {
   list: {
@@ -67,7 +67,7 @@ const initialState = {
       },
     ],
   },
-};
+}
 
 //MIDDLE WARES
 const addCommentDB = (contents, postNum) => {
@@ -75,11 +75,11 @@ const addCommentDB = (contents, postNum) => {
     const _comments = {
       ...initialState.list.comment[0],
       contents: contents,
-    };
-    console.log(contents);
-    dispatch(addComment(_comments));
-  };
-};
+    }
+    console.log(contents)
+    dispatch(addComment(_comments))
+  }
+}
 
 // const getCommentDB = (postNum) => {
 //   return async function (dispatch, getState) {
@@ -106,24 +106,24 @@ export default handleActions(
   {
     [SET_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        draft.list[action.payload.postNum] = action.payload.commenList;
+        draft.list[action.payload.postNum] = action.payload.commenList
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft.list);
-        console.log(action.payload);
-        draft.list[action.payload.postNum].unshift(action.payload.comment);
+        console.log(draft.list)
+        console.log(action.payload)
+        draft.list[action.payload.postNum].unshift(action.payload.comment)
       }),
     [DELETE_COMMENT]: (state, action) =>
       produce(state, (draft) => {
         draft.list = draft.list.filter(
-          (d) => d.commentNum !== action.payload.commentNum
-        );
+          (d) => d.commentNum !== action.payload.commentNum,
+        )
       }),
   },
-  initialState
-);
+  initialState,
+)
 
 export const commentActions = {
   addCommentDB,
-};
+}

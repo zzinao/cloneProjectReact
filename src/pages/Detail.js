@@ -1,21 +1,18 @@
 import React from 'react';
-import { Grid, Text, Image, LikeIcons, Button, Input } from '../elements/index';
+import { Grid, Text, Image, LikeIcons, Button } from '../elements/index';
 import LikeIcon from '../components/LikeIcon';
 import DisLikeIcon from '../components/DisLikeIcon';
 import Header from '../shared/Header';
 import styled from 'styled-components';
 import CommentWrite from '../components/CommentWrite';
-import CommentList from '../components/CommentList';
+// import CommentList from '../components/CommentList'
 import Post from '../components/Post';
 
 const Detail = (props) => {
   return (
-    <React.Fragment>
+    <>
       <Header />
-      {/* <Preview /> */}
-      <>
-        <Post />
-      </>
+      <Post />
       <Container>
         <TitleBox>
           <Text weight='700' size='22px' color='#fff' margin='20px 0 0'>
@@ -23,11 +20,11 @@ const Detail = (props) => {
           </Text>
           <Grid isFlex>
             <Text color='#aaa' size='14px' margin='10px 0 20px'>
-              조회수 23423553회 &nbsp; 최초 공개 2022.4.1
+              조회수 23423553회 & nbsp; 최초 공개 2022.4.1
             </Text>
             <Grid isFlex>
-              <LikeIcon />
-              <DisLikeIcon />
+              {/* <LikeIcon />
+              <DisLikeIcon /> */}
               <Text color='#fff' weight='700' margin=' 0 8px'>
                 공유
               </Text>
@@ -77,7 +74,7 @@ const Detail = (props) => {
           {/* <CommentList /> */}
         </CommentBox>
       </Container>
-    </React.Fragment>
+    </>
   );
 };
 const Container = styled.div`

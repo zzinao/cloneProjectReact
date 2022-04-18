@@ -1,7 +1,7 @@
-import React from 'react';
-import { Text, Grid } from '../elements/index';
-import styled from 'styled-components';
-import { AiTwotoneDislike, AiOutlineDislike } from 'react-icons/ai';
+import React from 'react'
+import { Text, Grid } from '../elements/index'
+import styled from 'styled-components'
+import { AiTwotoneDislike, AiOutlineDislike } from 'react-icons/ai'
 
 const DisLikeIcon = (props) => {
   //유저정보 받아와서 확인
@@ -12,12 +12,12 @@ const DisLikeIcon = (props) => {
   // if(isMyDisLike){
   return (
     <Grid isFlex>
-      <AiTwotoneDislike color='#fff' /> &nbsp;
-      <Text margin='0 10px' color='#fff'>
+      <AiTwotoneDislike color="#fff" /> &nbsp;
+      <Text margin="0 10px" color="#fff">
         40만개
       </Text>
     </Grid>
-  );
+  )
   // }else{
   //   return(
   //     <Container>
@@ -28,7 +28,7 @@ const DisLikeIcon = (props) => {
   // }
 
   // ;
-};
+}
 
 // const Container = styled.div`
 //   position: relative;
@@ -37,4 +37,4 @@ const DisLikeIcon = (props) => {
 //   align-itmes: center;
 // `
 
-export default DisLikeIcon;
+export default DisLikeIcon

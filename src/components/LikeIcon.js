@@ -1,7 +1,7 @@
-import React from 'react';
-import { Text, Grid } from '../elements/index';
-import styled from 'styled-components';
-import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
+import React from 'react'
+import { Text, Grid } from '../elements/index'
+import styled from 'styled-components'
+import { AiFillLike, AiOutlineLike } from 'react-icons/ai'
 
 const LikeIcon = (props) => {
   //유저정보 받아와서 확인
@@ -12,12 +12,12 @@ const LikeIcon = (props) => {
   // if(isMyLike){
   return (
     <Grid isFlex>
-      <AiFillLike color='#fff' /> &nbsp;
-      <Text margin='0 8px' color='#fff'>
+      <AiFillLike color="#fff" /> &nbsp;
+      <Text margin="0 8px" color="#fff">
         40만개
       </Text>
     </Grid>
-  );
+  )
   // }else{
   //   return(
   //     <Container>
@@ -28,6 +28,6 @@ const LikeIcon = (props) => {
   // }
 
   // ;
-};
+}
 
-export default LikeIcon;
+export default LikeIcon

@@ -1,16 +1,16 @@
-import React from 'react';
-import { Grid, Text, Image } from '../elements/index';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import React from 'react'
+import { Grid, Text, Image } from '../elements/index'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 //코멘트 더미
 const Comment = (props) => {
-  const comment = useSelector((state) => state.comment?.list?.comment);
+  const comment = useSelector((state) => state.comment?.list?.comment)
 
-  console.log(comment);
+  console.log(comment)
   return (
     <>
       <CommentBox>
-        <Image src={props.src} shape='profile' />
+        <Image src={props.src} shape="profile" />
         <Grid>
           <Text>{props.userNick}</Text>
         </Grid>
@@ -20,9 +20,9 @@ const Comment = (props) => {
         <Text>{props.commentDate}</Text>
       </CommentBox>
     </>
-  );
-};
+  )
+}
 
-const CommentBox = styled.div``;
+const CommentBox = styled.div``
 
-export default Comment;
+export default Comment

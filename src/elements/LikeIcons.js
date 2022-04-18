@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
 const LikeIcons = (props) => {
-  return <></>;
-};
+  return <></>
+}
 
-LikeIcons.defaultProps = {};
+LikeIcons.defaultProps = {}
 
-export default LikeIcons;
+export default LikeIcons

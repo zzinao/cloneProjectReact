@@ -12,7 +12,7 @@ const EDIT_POST = 'EDIT_POST';
 
 //액션 생성
 const addPost = createAction(ADD_POST, (post) => ({ post }));
-const getPost = createAction(GET_POST, (posts) => ({ posts }));
+const getPost = createAction(GET_POST, (post) => ({ post }));
 const getOnePost = createAction(GETONE_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (postNum, post) => ({
   postNum,
@@ -60,17 +60,20 @@ const addPostDB = (formData) => {
 };
 
 //조회
-const getPostDB = (num) => {
+const getPostDB = (postNum) => {
+  console.log(postNum);
   return async function (dispatch, getState, { history }) {
     await axios
       // 보류
-      .get(`http://15.164.211.148/api/posts?postNum=${num}`)
+      .get(`http://15.164.211.148/api/posts?postNum=5`, {
+        headers: {
+          Authorization: `Bearer${localStorage.getItem('token')}`,
+        },
+      })
       .then((res) => {
-        let _posts = [];
-        res.data.posts.forEach((posts) => {
-          _posts.push({ num: posts.num, ...posts });
-        });
-        dispatch(getPost(_posts));
+        console.log(res);
+        let post = res.data;
+        dispatch(getPost(post));
       })
       .catch((err) => {
         console.log(err);
@@ -136,15 +139,7 @@ export default handleActions(
       }),
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.list = draft.list.reduce((acc, cur) => {
-          if (acc.findIndex((a) => a.num === cur.num) === -1) {
-            return [...acc, cur];
-          } else {
-            acc[acc.findIndex((a) => a.num === cur.num)] = cur;
-            return acc;
-          }
-        }, []);
-        draft.list = action.payload.posts;
+        draft.list = action.payload.post;
       }),
     [GETONE_POST]: (state, action) =>
       produce(state, (draft) => {

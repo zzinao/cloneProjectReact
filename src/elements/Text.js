@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const Text = (props) => {
-  const { children, ...styles } = props;
+  const { children, ...styles } = props
   return (
     <>
       <Ptag {...styles}>{children}</Ptag>
     </>
-  );
-};
+  )
+}
 
 Text.defaultProps = {
   children: null,
@@ -19,7 +19,7 @@ Text.defaultProps = {
   center: false,
   weight: false,
   _cusor: false,
-};
+}
 
 const Ptag = styled.p`
   color: ${(props) => props.color};
@@ -30,6 +30,7 @@ const Ptag = styled.p`
   ${(props) => (props.center ? `text-align: center;` : '')}
   ${(props) => (props.align ? `text-align: ${props.align};` : '')}
   ${(props) => (props._cursor ? `cursor: pointer;` : null)};
-`;
+  
+`
 
-export default Text;
+export default Text

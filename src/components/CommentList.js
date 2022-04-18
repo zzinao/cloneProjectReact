@@ -1,15 +1,15 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { commentActions } from '../redux/modules/comment';
-import { Grid } from '../elements/index';
-import Comment from './Comment';
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { commentActions } from '../redux/modules/comment'
+import { Grid } from '../elements/index'
+import Comment from './Comment'
 
 //코멘트 뿌리기
 const CommentList = (props) => {
-  const dispatch = useDispatch();
-  const comment_list = useSelector((state) => state.comment?.list?.comment);
+  const dispatch = useDispatch()
+  const comment_list = useSelector((state) => state.comment?.list?.comment)
 
-  const { postNum } = props;
+  const { postNum } = props
 
   // React.useEffect(() => {
   //   if (!comment_list[postNum]) {
@@ -25,13 +25,13 @@ const CommentList = (props) => {
 
   return (
     <React.Fragment>
-      <Grid padding='16px'>
+      <Grid padding="16px">
         {comment_list[postNum].map((comment) => {
-          return <Comment key={comment.commentId} {...comment} />;
+          return <Comment key={comment.commentId} {...comment} />
         })}
       </Grid>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default CommentList;
+export default CommentList
