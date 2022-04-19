@@ -8,7 +8,7 @@ import axios from 'axios'
 import { setToken, getToken, removeToken } from '../../shared/Token'
 
 //나중에 axios module로 뺄 것
-const BASE_URL = 'http://15.164.211.148'
+const BASE_URL = 'http://3.34.98.31'
 
 //InitialState
 const initialState = {

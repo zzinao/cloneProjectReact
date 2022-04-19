@@ -2,13 +2,23 @@ import React from 'react'
 import { MdSearch } from 'react-icons/md'
 import { Grid, Input, Text, Button, Image } from '../elements/index'
 import styled from 'styled-components'
+import { actionCreators as postActions } from '../redux/modules/post'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Search = () => {
+  const dispatch = useDispatch()
+  const searchRef = React.useRef(null)
+
+  const handleSearch = () => {
+    const searchWord = searchRef.current.value
+    dispatch(postActions.searchDB(searchWord))
+  }
+
   return (
     <>
       <Form>
-        <InputField type="text" placeholder="검색" />
-        <SearchBtn>
+        <InputField type="text" placeholder="검색" ref={searchRef} />
+        <SearchBtn onClick={handleSearch}>
           <MdSearch size="26" color="#fff" className="icons" />
         </SearchBtn>
       </Form>
@@ -16,7 +26,7 @@ const Search = () => {
   )
 }
 
-const Form = styled.form`
+const Form = styled.div`
   flex: 0.6;
   display: flex;
   padding: 0.1rem;

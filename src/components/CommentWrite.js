@@ -14,8 +14,8 @@ const CommentWrite = (props) => {
   // const post = useSelector((state) => state.comment.list.post)
   const comment_list = useSelector((state) => state.comment?.list?.comment)
 
-  console.log(comment_list)
-
+  console.log(props[0])
+  const postNum = props[0]
   const handleComment = (e) => {
     setComment(e.target.value)
   }
@@ -25,8 +25,7 @@ const CommentWrite = (props) => {
       window.alert('내용을 입력해주세요!')
       return
     }
-    dispatch(commentActions.addCommentDB(comment))
-    window.alert('작성이 완료 되었습니다!')
+    dispatch(commentActions.addCommentDB(comment, postNum))
     setComment('')
   }
 

@@ -3,7 +3,7 @@ import { produce } from 'immer'
 import axios from 'axios'
 import { create } from 'lodash'
 
-// const BASE_URL = ""
+const BASE_URL = 'http://3.34.98.31'
 
 const SET_COMMENT = 'SET_COMMENT'
 const ADD_COMMENT = 'ADD_COMMENT'
@@ -70,14 +70,41 @@ const initialState = {
 }
 
 //MIDDLE WARES
+//코멘트 등록 500에러 확인
 const addCommentDB = (contents, postNum) => {
-  return async function (dispatch, getState) {
-    const _comments = {
-      ...initialState.list.comment[0],
-      contents: contents,
-    }
-    console.log(contents)
-    dispatch(addComment(_comments))
+  console.log(contents, postNum)
+  console.log(localStorage.getItem('token'))
+  return async function (dispatch, getState, { history }) {
+    await axios
+      .post(
+        `${BASE_URL}/api/comments?postNum=${postNum}`,
+        JSON.stringify({
+          contents: contents,
+        }),
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer${localStorage.getItem('token')}`,
+          },
+        },
+      )
+
+      // ({
+      //   method: 'post',
+      //   url: `${BASE_URL}/api/comments?postNum=${postNum}`,
+      //   data: contents,
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     Authorization: `Bearer${localStorage.getItem('token')}`,
+      //   },
+      // })
+      .then((res) => {
+        console.log(res.data)
+        dispatch(addComment())
+      })
+      .catch((err) => {
+        console.log('게시물작성실패', err)
+      })
   }
 }
 
