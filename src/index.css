@@ -27,3 +27,7 @@ body {
   margin: 0 10px;
   cursor: pointer;
 }
+
+.detail_video {
+  width: 100%;
+}
