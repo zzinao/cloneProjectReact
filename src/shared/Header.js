@@ -14,15 +14,16 @@ import { RiLogoutBoxRLine, RiVideoAddFill } from 'react-icons/ri'
 import { MdApps, MdOutlineNotificationsNone } from 'react-icons/md'
 
 import { getToken } from './Token'
-//분기 최소화 리팩토링 해야됨
-
+//분기 최소화 리팩토링 해야됨!!!!!
 const Header = (props) => {
+  const userInfo = useSelector((state) => state.user.user)
+
   const dispatch = useDispatch()
 
   const token = getToken ? true : false
   const is_login = useSelector((state) => state.user.is_login)
 
-  if (token) {
+  if (token && is_login) {
     return (
       <HeaderContainer>
         <Grid className="header">
@@ -63,7 +64,7 @@ const Header = (props) => {
                     dispatch(userActions.logOutDB({}))
                   }}
                 />
-                <Image shape="profile" src={props.src} />
+                <Image shape="profile" src_01={userInfo.userProfile} />
               </Grid>
               <Grid isFlex></Grid>
             </Grid>

@@ -1,40 +1,47 @@
 import React from 'react'
 import { Text, Grid } from '../elements/index'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { AiTwotoneDislike, AiOutlineDislike } from 'react-icons/ai'
+import { actionCreators as postAction } from '../redux/modules/post'
 
 const DisLikeIcon = (props) => {
-  //유저정보 받아와서 확인
-  //메인에서 DislikeNum 가져오기
+  const isMyLike = props.likeCheck
+  let isMyUnlike = props.unlikeCheck
 
-  // const isMyDisLike = ....
+  const [unlike, setUnLike] = React.useState(isMyUnlike)
+  const dispatch = useDispatch()
 
-  // if(isMyDisLike){
-  return (
-    <Grid isFlex>
-      <AiTwotoneDislike color="#fff" /> &nbsp;
-      <Text margin="0 10px" color="#fff">
-        40만개
-      </Text>
-    </Grid>
-  )
-  // }else{
-  //   return(
-  //     <Container>
-  //     <AiOutlineDislike color="#fff"/> &nbsp;
-  //     <Text>40만개</Text>
-  //   </Container>
-  //   )
+  //likeCheck, unLikeCheck
+  const { postNum } = useParams()
+
+  const toggleDisLike = () => {
+    // console.log(',,,')
+    // if (unlike) {
+    dispatch(postAction.unlikeDB(postNum, isMyLike, !isMyUnlike))
+    setUnLike(!unlike)
+  }
   // }
-
-  // ;
+  if (unlike) {
+    return (
+      <Grid isFlex margin="0 15px;">
+        <AiTwotoneDislike color="#fff" onClick={toggleDisLike} /> &nbsp;
+        <Text margin="0 8px" color="#fff">
+          {props.postUnlikeNum}개
+        </Text>
+      </Grid>
+    )
+  } else {
+    return (
+      <Grid isFlex margin="0 15px;">
+        <AiOutlineDislike color="#fff" onClick={toggleDisLike} /> &nbsp;
+        <Text margin="0 8px" color="#fff">
+          {props.postUnlikeNum}개
+        </Text>
+      </Grid>
+    )
+  }
 }
-
-// const Container = styled.div`
-//   position: relative;
-//   display: flex;
-//   justify-content: center;
-//   align-itmes: center;
-// `
 
 export default DisLikeIcon

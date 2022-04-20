@@ -9,12 +9,9 @@ import styled from 'styled-components'
 //인풋 포커스 시 취소, 댓글 버튼 나타나야함
 const CommentWrite = (props) => {
   const dispatch = useDispatch()
-  const params = useParams()
+  const userInfo = useSelector((state) => state?.user?.user?.userProfile)
   const [comment, setComment] = useState('')
-  // const post = useSelector((state) => state.comment.list.post)
-  const comment_list = useSelector((state) => state.comment?.list?.comment)
 
-  console.log(props[0])
   const postNum = props[0]
   const handleComment = (e) => {
     setComment(e.target.value)
@@ -33,7 +30,7 @@ const CommentWrite = (props) => {
     <>
       <Contanier>
         <Grid isFlex_start>
-          <Image shape="profile" src={props.src} size="40" />
+          <Image shape="profile" src_01={userInfo} size="40" />
           <InputFiled
             type="text"
             placeholder="댓글 추가..."

@@ -6,25 +6,28 @@ import { produce } from 'immer'
 import axios from 'axios'
 
 import { setToken, getToken, removeToken } from '../../shared/Token'
+import { create } from 'lodash'
 
 //나중에 axios module로 뺄 것
 const BASE_URL = 'http://3.34.98.31'
+
+//ACTION
+const LOG_IN = 'LOG_IN'
+const LOG_OUT = 'LOG_OUT'
+const SIGN_UP = 'SIGN_UP'
+const SET_USER = 'SET_USER'
+
+//ACTION CREATORS
+const logIn = createAction(LOG_IN, (token, user) => ({ token, user }))
+const signUp = createAction(SIGN_UP, (user) => ({ user }))
+const logOut = createAction(LOG_OUT, (user) => ({ user }))
+const setUser = createAction(SET_USER, (user) => ({ user }))
 
 //InitialState
 const initialState = {
   user: null,
   is_login: false,
 }
-
-//ACTION
-const LOG_IN = 'LOG_IN'
-const LOG_OUT = 'LOG_OUT'
-const SIGN_UP = 'SIGN_UP'
-
-//ACTION CREATORS
-const logIn = createAction(LOG_IN, (token, user) => ({ token, user }))
-const signUp = createAction(SIGN_UP, (user) => ({ user }))
-const logOut = createAction(LOG_OUT, (user) => ({ user }))
 
 //MIDDLE WARES
 
@@ -80,6 +83,33 @@ const loginDB = (dic) => {
       })
   }
 }
+//islogin
+const isLoginDB = () => {
+  return async function (dispatch, getState, { history }) {
+    await axios({
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer${localStorage.getItem('token')}`,
+      },
+      method: 'get',
+      url: `${BASE_URL}/user/islogin`,
+    })
+      .then((res) => {
+        console.log(res)
+        dispatch(
+          setUser({
+            userId: res.data.user.userId,
+            userNick: res.data.user.userNick,
+            userProfile: res.data.user.userProfile,
+            userSubscribe: res.data.user.userSubscribe,
+          }),
+        )
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+}
 
 //로그아웃
 const logOutDB = (user) => {
@@ -108,6 +138,11 @@ export default handleActions(
         draft.is_login = false
         draft.user = null
       }),
+    [SET_USER]: (state, action) =>
+      produce(state, (draft) => {
+        draft.user = action.payload.user
+        draft.is_login = true
+      }),
   },
   initialState,
 )
@@ -118,6 +153,7 @@ const actionCreator = {
   loginDB,
   signupDB,
   logOutDB,
+  isLoginDB,
 }
 
 export { actionCreator }

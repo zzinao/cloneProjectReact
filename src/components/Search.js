@@ -4,6 +4,7 @@ import { Grid, Input, Text, Button, Image } from '../elements/index'
 import styled from 'styled-components'
 import { actionCreators as postActions } from '../redux/modules/post'
 import { useDispatch, useSelector } from 'react-redux'
+import { history } from '../redux/configureStore'
 
 const Search = () => {
   const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const Search = () => {
   const handleSearch = () => {
     const searchWord = searchRef.current.value
     dispatch(postActions.searchDB(searchWord))
+    history.push(`/search/&{searchWord}`)
   }
 
   return (

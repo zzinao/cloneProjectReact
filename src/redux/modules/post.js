@@ -11,6 +11,11 @@ const GET_POST = 'GET_POST'
 const GETONE_POST = 'GETONE_POST'
 const EDIT_POST = 'EDIT_POST'
 const GET_MAIN = 'GET_MAIN'
+const GET_SEARCH = 'GET_SEARCH'
+//라이크 부분
+const IS_LIKE = 'IS_LIKE'
+const UN_LIKE = 'UN_LIKE'
+const GET_SUBS = 'GET_SUBS'
 
 //액션 생성
 const addPost = createAction(ADD_POST, (post) => ({ post }))
@@ -21,32 +26,19 @@ const editPost = createAction(EDIT_POST, (postNum, post) => ({
   post,
 }))
 const getMain = createAction(GET_MAIN, (list) => ({ list }))
+const getSearch = createAction(GET_SEARCH, (post) => ({ post }))
+const isLike = createAction(IS_LIKE, (likeCheck, likeCount) => ({
+  likeCheck,
+  likeCount,
+}))
+const unLike = createAction(UN_LIKE, (un_like) => ({ un_like }))
+const getSubs = createAction(GET_SUBS, (list) => ({ list }))
 
 //초기값
 const initialState = {
-  post: {
-    postNum: 1,
-    postTitle: '글 제목입니다.',
-    postDesc: '글 내용입니다.',
-    postThumb: '이미지 경로',
-    postDate: '2022.04.08.00:00',
-    postLikeNum: 0,
-    postUnikeNum: 0,
-    postCommentNum: 0,
-    userId: '작성자 아이디',
-    postCnt: '조회수',
-    postVideo: '동영상 경로',
-    userInfo: {
-      userId: '아이디',
-      userPw: '비밀번호',
-      userNick: '닉네임',
-      userProfile: '프로필 사진 경로',
-      userSubscribe: 100,
-    },
-  },
-
   list: [],
   detail: [],
+  search: [],
 }
 
 // const initialPost = {
@@ -86,7 +78,6 @@ const addPostDB = (formData) => {
 
 //조회
 const getOnePostDB = (postNum) => {
-  console.log(postNum)
   return async function (dispatch, getState, { history }) {
     await axios({
       headers: {
@@ -97,8 +88,28 @@ const getOnePostDB = (postNum) => {
       url: `${BASE_URL}/api/posts?postNum=${postNum}`,
     })
       .then((res) => {
+        const post = res.data.post
         console.log(res.data)
-        dispatch(getOnePost(res.data))
+        let post_data = {
+          postCnt: post.postCnt,
+          postCommentNum: post.postCommentNum,
+          postDate: post.postDate,
+          postNum: post.postNum,
+          postDesc: post.postDesc,
+          postTitle: post.postTitle,
+          postVideo: post.postVideo,
+          postLikeNum: post.postLikeNum,
+          postUnlikeNum: post.postUnlikeNum,
+          userNick: post.userInfo.userNick,
+          userProfile: post.userInfo.userProfile,
+          userSubscribe: post.userInfo.userSubscribe,
+          likeCheck: res.data.likeCheck,
+          unlikeCheck: res.data.unlikeCheck,
+          subscribeCheck: res.data.subscribeCheck,
+        }
+        console.log(post_data)
+
+        dispatch(getOnePost(post_data))
       })
       .catch((err) => {
         console.log(err)
@@ -166,27 +177,142 @@ const editPostDB = (num, formData) => {
   }
 }
 
-const searchDB = (searchWord = null) => {
-  console.log(searchWord)
-  return async function (dispatch, getState, { history }) {
-    // await axios
-    // ({
-    //   method: 'get',
-    //   url: `${BASE_URL}/api/search?keyword=${searchWord}`,
-    //   headers: {
-    //     'Content-Type': `application/json`,
-    //   },
-    // })
+// const searchDB = (searchWord = null) => {
+//   console.log(searchWord)
+//   return async function (dispatch, getState, { history }) {
+//     await axios({
+//       method: 'get',
+//       url: `${BASE_URL}/api/search?keyword=${searchWord}`,
+//       headers: {
+//         'Content-Type': `application/json`,
+//       },
+//     }).then((res) => {
+//       let search = [...res.data.posts]
+//       let search_list = []
 
+//       search.forEach((post) =>
+//         search_list.push({
+//           postCnt: post.postCnt,
+//           postDate: post.postDate,
+//           postThumb: post.postThumb,
+//           postTile: post.postTitle,
+//           postVideo: post.postVideo,
+//           userNick: post.userInfo.userNick,
+//           userProfile: post.userProfile,
+//         }),
+//       )
+//       dispatch(getSearch(search_list))
+//     })
+//   }
+// }
+
+const isLikeDB = (postNum, likeCheck, unlikeCheck, likeNum) => {
+  console.log(postNum, likeCheck, unlikeCheck)
+  console.log(
+    '현재 좋아요 상태!: ',
+    likeCheck,
+    '현재 싫어요 상태!: ',
+    unlikeCheck,
+  )
+  return async function (dispatch, getState, { history }) {
     await axios
-      .get(
-        `${BASE_URL}/api/search`,
-        { params: { keyword: searchWord } },
-        // {
-        //   headers: { 'Content-Type': `application/json` }, }
+      .post(
+        `${BASE_URL}/api/like?postNum=${postNum}`,
+        JSON.stringify({
+          likeCheck: likeCheck,
+          unlikeCheck: unlikeCheck,
+        }),
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer${localStorage.getItem('token')}`,
+          },
+        },
+      )
+      .then((res) => {
+        const _like = res.data.result
+
+        dispatch(isLike(likeCheck))
+      })
+      .catch((err) => {
+        console.log('좋아요 실패ㅜ', err)
+      })
+  }
+}
+
+const unlikeDB = (postNum, likeCheck, unlikeCheck) => {
+  console.log(postNum, likeCheck, unlikeCheck)
+  console.log(
+    '현재 좋아요 상태!: ',
+    likeCheck,
+    '현재 싫어요 상태!: ',
+    unlikeCheck,
+  )
+  return async function (dispatch, getState, { history }) {
+    console.log('test')
+    await axios
+      .post(
+        `${BASE_URL}/api/unlike?postNum=${postNum}`,
+        JSON.stringify({
+          likeCheck: likeCheck,
+          unlikeCheck: unlikeCheck,
+        }),
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer${localStorage.getItem('token')}`,
+          },
+        },
+      )
+      .then((res) => {
+        console.log(res.data.result)
+        dispatch(unLike(unlikeCheck))
+      })
+      .catch((err) => {
+        console.log('싫어요 실패', err)
+      })
+  }
+}
+const getSubsDB = (userSub, subCheck) => {
+  console.log('현재 구독 상태! ', subCheck)
+  console.log(userSub, subCheck)
+  return async function (dispatch, getState, { history }) {
+    await axios
+      .post(
+        `${BASE_URL}/api/subscribe`,
+        JSON.stringify({
+          userSub: userSub,
+          subCheck: subCheck,
+        }),
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            Authorization: `Bearer${localStorage.getItem('token')}`,
+          },
+        },
       )
       .then((res) => {
         console.log(res)
+        const _sub = res.data.result
+        dispatch(getSubs())
+      })
+      .catch((err) => {
+        console.log('에ㅔ러', err)
+      })
+  }
+}
+
+const searchDB = (searchWord = null) => {
+  return async function (dispatch, getState, { history }) {
+    await axios({
+      method: 'get',
+      url: `${BASE_URL}/api/search?keyword=${searchWord}`,
+      headers: {
+        'Content-Type': `application/json`,
+      },
+    })
+      .then((res) => {
+        dispatch(getSearch(res.data))
       })
       .catch((err) => {
         console.log('err', err)
@@ -216,7 +342,6 @@ export default handleActions(
     [GETONE_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.detail = action.payload.post
-        console.log(draft.detail)
       }),
     [EDIT_POST]: (state, action) =>
       produce(state, (draft) => {
@@ -228,10 +353,78 @@ export default handleActions(
       }),
     [GET_MAIN]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft)
-        console.log(action.payload)
         draft.list = action.payload.list
         console.log(draft.list)
+      }),
+
+    [GET_SEARCH]: (state, action) =>
+      produce(state, (draft) => {
+        console.log(draft.search)
+        draft.search = action.payload.search
+      }),
+
+    //       [GET_SEARCH]: (state, action) =>
+    //       produce(state, (draft)) => {
+    //         draft.list = action.payload.search_list
+    // }),
+
+    [IS_LIKE]: (state, action) =>
+      produce(state, (draft) => {
+        const { likeCheck } = action.payload
+
+        {
+          likeCheck
+            ? (draft.detail = {
+                ...draft.detail,
+                likeCheck: likeCheck,
+                postLikeNum: draft.detail.postLikeNum - 1,
+              })
+            : (draft.detail = {
+                ...draft.detail,
+                likeCheck: likeCheck,
+                postLikeNum: draft.detail.postLikeNum + 1,
+              })
+        }
+
+        // const { isLike, likeNum } = action.payload
+        // draft.isLike = isLike
+      }),
+
+    [UN_LIKE]: (state, action) =>
+      produce(state, (draft) => {
+        const { unlikeCheck } = action.payload
+
+        {
+          !unlikeCheck
+            ? (draft.detail = {
+                ...draft.detail,
+                unlikeCheck: unlikeCheck,
+                postUnlikeNum: draft.detail.postUnlikeNum - 1,
+              })
+            : (draft.detail = {
+                ...draft.detail,
+                unlikeCheck: unlikeCheck,
+                postUnlikeNum: draft.detail.postUnlikeNum + 1,
+              })
+        }
+      }),
+    [GET_SUBS]: (state, action) =>
+      produce(state, (draft) => {
+        const { subscribeCheck } = action.payload
+
+        {
+          !subscribeCheck
+            ? (draft.detail = {
+                ...draft.detail,
+                subscribeCheck: subscribeCheck,
+                userSubscribe: draft.detail.userSubscribe - 1,
+              })
+            : (draft.detail = {
+                ...draft.detail,
+                subscribeCheck: subscribeCheck,
+                userSubscribe: draft.detail.userSubscribe + 1,
+              })
+        }
       }),
   },
   initialState,
@@ -247,6 +440,9 @@ const actionCreators = {
   getOnePostDB,
   getMainDB,
   searchDB,
+  isLikeDB,
+  unlikeDB,
+  getSubsDB,
 }
 
 export { actionCreators }

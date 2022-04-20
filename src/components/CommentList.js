@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { commentActions } from '../redux/modules/comment'
 import { Grid } from '../elements/index'
 import Comment from './Comment'
@@ -7,29 +8,27 @@ import Comment from './Comment'
 //코멘트 뿌리기
 const CommentList = (props) => {
   const dispatch = useDispatch()
-  const comment_list = useSelector((state) => state.comment?.list?.comment)
+  const comment_list = useSelector((state) => state?.comment?.list)
 
-  const { postNum } = props
+  const { postNum } = useParams()
 
-  // React.useEffect(() => {
-  //   if (!comment_list[postNum]) {
-  //     // 코멘트 정보가 없으면 불러오기
-  //     dispatch(commentActions.getCommentDB(postNum))
-  //   }
-  // }, [])
-
-  // //값없어서 터지는 오류 방지
-  // if (!comment_list[postNum] || !postNum) {
-  //   return null
-  // }
+  React.useEffect(() => {
+    dispatch(commentActions.getCommentDB(postNum))
+  }, [])
 
   return (
     <React.Fragment>
-      <Grid padding="16px">
-        {comment_list[postNum].map((comment) => {
-          return <Comment key={comment.commentId} {...comment} />
-        })}
-      </Grid>
+      {comment_list ? (
+        comment_list.map((c, i) => {
+          return (
+            <Grid key={c.commentNum}>
+              <Comment {...c} />
+            </Grid>
+          )
+        })
+      ) : (
+        <div> 댓글이 없네용</div>
+      )}
     </React.Fragment>
   )
 }

@@ -1,39 +1,36 @@
 import React from 'react'
-import { Grid, Text, Image, LikeIcons, Button } from '../elements/index'
+import { Grid, Text, Image, Button, SubsBtn } from '../elements/index'
 import LikeIcon from '../components/LikeIcon'
 import DisLikeIcon from '../components/DisLikeIcon'
 import { useParams } from 'react-router-dom'
 import Header from '../shared/Header'
 import styled from 'styled-components'
 import CommentWrite from '../components/CommentWrite'
-// import CommentList from '../components/CommentList'
-import Post from '../components/Post'
+import CommentList from '../components/CommentList'
+import { changeTime } from '../shared/ChangeTime'
 import { actionCreators as postActions } from '../redux/modules/post'
 import { useSelector, useDispatch } from 'react-redux'
 import ReactPlayer from 'react-player/lazy'
 
 const Detail = (props) => {
+  const { postNum } = useParams()
   const dispatch = useDispatch()
 
-  const { postNum } = useParams()
-  console.log(postNum)
+  const detail = useSelector((state) => state.post.detail)
 
-  const num = props.match.params.postNum
+  //like check props로 보내 줄 것 ~~
+  const likeCheck = useSelector((state) => state.post.detail)
+  const data = useSelector((state) => state.post)
+  console.log(likeCheck)
 
-  const detail = useSelector((state) => state.post.detail.post)
-  console.log('왜안돼~~!!!')
-  // const detail_idx = detail.findIndex((p) => p.postNum === postNum)
-  // console.log(detail_idx)
-  console.log('왜안돼~~!!!')
-  console.log(detail)
+  console.log(likeCheck)
+  // console.log(likeCheck)
 
   //게시물 불러오기
   React.useEffect(() => {
     dispatch(postActions.getOnePostDB(postNum))
   }, [])
-  console.log('왜안돼~~!!!')
   if (detail) {
-    console.log('gg')
     return (
       <>
         <Header />
@@ -56,11 +53,12 @@ const Detail = (props) => {
             </Text>
             <Grid isFlex>
               <Text color="#aaa" size="14px" margin="10px 0 20px">
-                조회수 {detail?.postCnt}회 &nbsp; 공개 {detail?.postDate}
+                조회수 {detail?.postCnt}회 &nbsp; 업로드{' '}
+                {changeTime(detail?.postDate)}
               </Text>
               <Grid isFlex>
-                <LikeIcon />
-                <DisLikeIcon />
+                <LikeIcon {...likeCheck} />
+                <DisLikeIcon {...likeCheck} />
                 <Text color="#fff" weight="700" margin=" 0 8px">
                   공유
                 </Text>
@@ -74,7 +72,7 @@ const Detail = (props) => {
             <Parent>
               <Image
                 shape="profile"
-                src={detail?.userInfo.userProfile}
+                src={detail?.userProfile}
                 margin="5px 20px 0 0"
                 size="50"
               />
@@ -86,18 +84,12 @@ const Detail = (props) => {
                     weight="700"
                     color="#fff"
                   >
-                    {detail?.userInfo.userNick}
+                    {detail?.userNick}
                   </Text>
-                  <Button
-                    width="50px"
-                    padding="5px 10px"
-                    marign="0"
-                    text="구독"
-                    bg="#CC0000"
-                  ></Button>
+                  <SubsBtn {...likeCheck} />
                 </Grid>
                 <Text margin="3px 0" size="12px" color="#aaa" weight="500">
-                  구독자수 {detail?.userInfo.userSubscribe}
+                  구독자수 {detail?.userSubscribe}
                 </Text>
                 <Text margin="25px 0" color="#fff" size="15px">
                   {detail?.postDesc}
@@ -108,10 +100,10 @@ const Detail = (props) => {
           <Hr />
           <CommentBox>
             <Text color="#fff" weight="700">
-              댓글 3432개
+              댓글 {detail?.postCommentNum}개
             </Text>
             <CommentWrite {...postNum} />
-            {/* <CommentList /> */}
+            <CommentList {...postNum} />
           </CommentBox>
         </Container>
       </>
@@ -127,12 +119,6 @@ const Detail = (props) => {
 }
 const Container = styled.div`
   padding: 10px 40px;
-`
-
-const Preview = styled.div`
-  width: 100%;
-  height: 500px;
-  background-color: black;
 `
 
 const TitleBox = styled.div``
