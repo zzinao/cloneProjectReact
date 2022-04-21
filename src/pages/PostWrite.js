@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Grid, Text, Image, Input, Button } from '../elements';
 import styled, { createGlobalStyle } from 'styled-components';
 
+import { useParams } from 'react-router-dom';
 import { actionCreators as postActions } from '../redux/modules/post';
 import { actionCreators as imageActions } from '../redux/modules/picture';
 import { actionCreators as videoActions } from '../redux/modules/picture';
@@ -13,19 +14,52 @@ import { FaRegQuestionCircle } from 'react-icons/fa';
 
 import { useSelector, useDispatch } from 'react-redux';
 //코드가 너무 길어져서 나중에 기능들 컴포넌트화 해서 빼면 좋을 것 같습니다.
-// 뷰 수정사항: 프리뷰 이미지 사이즈
 const PostWrite = (props) => {
   const dispatch = useDispatch();
-  const { history } = props;
-  const preview = useSelector((state) => state.picture.preview);
-  const post = useSelector((state) => state?.post?.list);
-  console.log(post?.posts);
+  useEffect(() => {
+    dispatch(postActions.getMainDB(postNum));
 
+    console.log('getpost 가져오기');
+  }, []);
+
+  const { history } = props;
+
+  // const preview = useSelector((state) => state.picture.preview);
+
+  const posts = useSelector((state) => state.post.list);
+  if (posts) {
+    console.log(posts);
+  }
   //수정 조건
   const postNum = props.match.params.postNum;
+  console.log(Number(postNum));
+
   const is_edit = postNum ? true : false;
-  let _post = is_edit ? post.find((p) => p.postNum === postNum) : null;
-  console.log(postNum);
+  console.log(is_edit);
+
+  console.log(posts.posts);
+  let _post = is_edit
+    ? posts.posts.find((p) => p.postNum === Number(postNum)).postTitle
+    : null;
+  console.log(_post);
+
+  console.log(posts.posts);
+  let title = is_edit
+    ? posts.posts.find((p) => p.postNum === Number(postNum)).postTitle
+    : null;
+  console.log(title);
+
+  console.log(posts.posts);
+  let desc = is_edit
+    ? posts.posts.find((p) => p.postNum === Number(postNum)).postDesc
+    : null;
+  console.log(desc);
+
+  console.log(posts.posts);
+  let thumb = is_edit
+    ? posts.posts.find((p) => p.postNum === Number(postNum)).postThumb
+    : null;
+  console.log(thumb);
 
   //게시물 불러오기
   useEffect(() => {
@@ -35,38 +69,38 @@ const PostWrite = (props) => {
       return;
     }
     if (is_edit) {
-      dispatch(imageActions.setPreview(_post.image));
+      dispatch(imageActions.setPreview(thumb));
     } else {
       dispatch(imageActions.setPreview(null));
     }
   }, []);
 
-  //썸네일 이미지 업로드
-  const imageFileInput = useRef(null);
-  const selectImage = () => {
-    const reader = new FileReader();
-    const file = imageFileInput.current.files[0];
+  //썸네일 업로드
+  const [postThumb, setPostThumb] = useState(
+    'https://t1.daumcdn.net/cfile/tistory/997E5C3C5BA1E68137'
+  );
+  const [preview, setPreview] = useState(
+    'https://pbs.twimg.com/profile_images/1226774390387294210/OeCeNAcZ_400x400.jpg'
+  );
 
-    reader.readAsDataURL(file);
-
-    reader.onloadend = () => {
-      dispatch(imageActions.setPreview(reader.result));
-    };
+  const selectImage = (e) => {
+    const img = e.target.files[0];
+    setPostThumb(img);
+    setPreview(window.webkitURL.createObjectURL(e.target.files[0]));
   };
-  const is_uploading = useSelector((state) => state.picture.uploading);
 
   //동영상 업로드
-  const videoFileInput = useRef(null);
-  const selectVideo = () => {
-    const reader = new FileReader();
-    const file = videoFileInput.current.files[0];
-
-    reader.readAsArrayBuffer(file);
+  const [previewVideo, setPreviewVideo] = useState('');
+  const [postVideo, setPostVideo] = useState('');
+  const selectVideo = (e) => {
+    const vid = e.target.files[0];
+    setPostVideo(vid);
+    setPreviewVideo(window.webkitURL.createObjectURL(e.target.files[0]));
   };
 
   //제목과 설명 state
-  const [postTitle, setPostTitle] = useState('');
-  const [postDesc, setPostDesc] = useState('');
+  const [postTitle, setPostTitle] = useState(_post ? title : '');
+  const [postDesc, setPostDesc] = useState(_post ? desc : '');
   const changeTitle = (e) => {
     setPostTitle(e.target.value);
   };
@@ -77,9 +111,6 @@ const PostWrite = (props) => {
 
   // 생성 블록
   const addPost = () => {
-    const postThumb = imageFileInput.current.files[0];
-    const postVideo = videoFileInput.current.files[0];
-
     const formData = new FormData();
 
     formData.append('postTitle', postTitle);
@@ -92,15 +123,13 @@ const PostWrite = (props) => {
 
   //수정 블록
   const editPost = () => {
-    const postThumb = imageFileInput.current.files[0];
-    const postVideo = videoFileInput.current.files[0];
+    // const postThumb = imageFileInput.current.files[0];
 
     const formData = new FormData();
 
     formData.append('postTitle', postTitle);
     formData.append('postDesc', postDesc);
     formData.append('postThumb', postThumb);
-    formData.append('postVideo', postVideo);
 
     return dispatch(postActions.editPostDB(postNum, formData));
   };
@@ -124,12 +153,13 @@ const PostWrite = (props) => {
             <TitleInput
               type='textarea'
               value={postTitle}
+              maxLength='200'
               onChange={changeTitle}
               placeholder='동영상을 설명하는 제목을 추가하세요'
             />
             <Grid isFlex_end>
               <Text margin='10px' size='13px' color='#606060'>
-                22/100자
+                {postTitle.length}/100자
               </Text>
             </Grid>
           </Title>
@@ -144,12 +174,13 @@ const PostWrite = (props) => {
             <ContentInput
               type='textarea'
               value={postDesc}
+              maxLength='1000'
               onChange={changeContent}
               placeholder='시청자에게 동영상에 대해 알려주세요'
             />
             <Grid isFlex_end>
               <Text margin='10px' size='13px' color='#606060'>
-                22/500자
+                {postDesc.length}/500자
               </Text>
             </Grid>
           </Content>
@@ -174,57 +205,107 @@ const PostWrite = (props) => {
           >
             자세히 알아보기
           </Text>
-          <PreviewBox>
-            <PreviewBtn
-              onClick={() => {
-                imageFileInput.current.click();
-              }}
+          <Cont>
+            <Cont
+              width='10rem'
+              height='6rem'
+              flexDirection='column'
+              alignItems='center'
+              border='1px solid #a0a0a0'
+              padding='.7rem 0'
             >
-              <RiImageAddFill size='25' color='#aaa' />
-              <Text margin='5px;' color='#aaa'>
-                미리보기 이미지 업로드
-              </Text>
-              <input
+              <label
+                htmlFor='input_img'
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '6rem',
+                  fontSize: '.4rem',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginTop: '2px',
+                }}
+              >
+                <RiImageAddFill size='25' color='#aaa' />
+                <Text margin='5px;' color='#aaa'>
+                  미리보기 이미지 업로드
+                </Text>
+              </label>
+              <FileInput
+                id='input_img'
                 type='file'
-                style={{ display: 'none' }}
-                ref={imageFileInput}
+                accept='.png , .jpg , .png, .jpeg'
                 onChange={selectImage}
-                disabled={is_uploading}
-              />
-            </PreviewBtn>
-            <Image
-              shape='rectangle'
-              margin='30px 0 0'
-              src_02={
-                preview
-                  ? preview
-                  : 'https://crossfitbbros.com/bbros-1/wp-content/uploads/2021/01/no-photo-available.png'
-              }
-            />
-          </PreviewBox>
+              ></FileInput>
+            </Cont>
+            <Cont
+              width='10rem'
+              height='6rem'
+              flexDirection='column'
+              alignItems='center'
+              justifyContent='center'
+              border='1px solid #a0a0a0'
+              padding='.7rem 0'
+              margin='0 0 0 5px'
+            >
+              <img width='100%' height='100%' src={preview} alt='' />
+            </Cont>
+          </Cont>
         </LeftBox>
 
         <RightBox>
-          {/* 동영상 */}
-          <Text color='#fff' size='25px' weight='600'>
-            동영상 업로드
-          </Text>
-          <input
-            type='file'
-            onChange={selectVideo}
-            ref={videoFileInput}
-            disabled={is_uploading}
-          />
           <Grid>
-            <Grid>
-              {/* 미리보기 영상 */}
-              <Image shape='rectangle' src_02={'https://ifh.cc/g/g0oyvr.png'} />
-            </Grid>
+            {/* 동영상 */}
+            <Text color='#fff' size='25px' weight='600'>
+              동영상 업로드
+            </Text>
 
+            <Cont>
+              <Video src={previewVideo}></Video>
+            </Cont>
+            <Cont flexDirection='column'>
+              <Text size='.7rem'>파일 이름</Text>
+            </Cont>
+            <Cont>
+              <label
+                htmlFor='input_file'
+                style={{
+                  display: 'flex',
+                  width: '100px',
+                  height: '30px',
+                  borderRadius: '20px',
+                  border: '1px solid white',
+                  fontSize: '1rem',
+                  color: 'white',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  marginTop: '2px',
+                  marginBottom: '35px',
+                }}
+              >
+                업로드
+              </label>
+              <FileInput
+                id='input_file'
+                type='file'
+                accept='.mp4'
+                onChange={selectVideo}
+              ></FileInput>
+            </Cont>
             {is_edit ? (
               <Button
                 bg='#0583F2'
                 width='50%'
+                disabled={
+                  (postTitle.length ||
+                    postDesc.length ||
+                    postThumb.length ||
+                    postVideo.length) > 0
+                    ? false
+                    : true
+                }
                 _onClick={editPost}
                 text='게시글 수정'
               />
@@ -232,6 +313,7 @@ const PostWrite = (props) => {
               <Button
                 bg='#0583F2'
                 width='50%'
+                disabled={postTitle.length > 0 ? false : true}
                 _onClick={addPost}
                 text='게시글 등록'
               />
@@ -254,6 +336,11 @@ const Container = styled.div`
   background-color: #282828;
   border-radius: 30px;
   padding: 50px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 30px 20px;
+  }
 `;
 
 const LeftBox = styled.div``;
@@ -332,4 +419,26 @@ const PreviewBtn = styled.div`
   border-radius: 3px;
 `;
 
+const Cont = styled.div`
+  display: flex;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  flex-direction: ${(props) => props.flexDirection};
+  justify-content: ${(props) => props.justifyContent};
+  align-items: ${(props) => props.alignItems};
+  border: ${(props) => props.border};
+  padding: ${(props) => props.padding};
+  margin: ${(props) => props.margin};
+`;
+
+const FileInput = styled.input`
+  display: none;
+`;
+
+const Video = styled.video`
+  width: 100%;
+  height: 200px;
+  border: 1 solid black;
+  background-color: black;
+`;
 export default PostWrite;

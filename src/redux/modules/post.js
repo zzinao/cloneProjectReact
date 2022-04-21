@@ -7,7 +7,6 @@ const BASE_URL = 'http://3.34.98.31';
 
 //액션
 const ADD_POST = 'ADD_POST';
-const GET_POST = 'GET_POST';
 const GETONE_POST = 'GETONE_POST';
 const EDIT_POST = 'EDIT_POST';
 const GET_MAIN = 'GET_MAIN';
@@ -15,55 +14,29 @@ const DELETE_POST = 'DELETE_POST';
 
 //액션 생성
 const addPost = createAction(ADD_POST, (post) => ({ post }));
-const getPost = createAction(GET_POST, (posts) => ({ posts }));
 const getOnePost = createAction(GETONE_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (postNum, post) => ({
-  postNum,
-  post,
+  postNum, // 미들웨어의 postNum 파라미터
+  post, //내용
 }));
 const getMain = createAction(GET_MAIN, (list) => ({ list }));
 const deletePost = createAction(DELETE_POST, (post) => ({ post }));
 
 //초기값
 const initialState = {
-  post: {
-    postNum: 1,
-    postTitle: '글 제목입니다.',
-    postDesc: '글 내용입니다.',
-    postThumb: '이미지 경로',
-    postDate: '2022.04.08.00:00',
-    postLikeNum: 0,
-    postUnikeNum: 0,
-    postCommentNum: 0,
-    userId: '작성자 아이디',
-    postCnt: '조회수',
-    postVideo: '동영상 경로',
-    userInfo: {
-      userId: '아이디',
-      userPw: '비밀번호',
-      userNick: '닉네임',
-      userProfile: '프로필 사진 경로',
-      userSubscribe: 100,
-    },
-  },
-
   list: [],
   detail: [],
 };
-
-// const initialPost = {
-//   image: '',
-//   content: '',
-// };
 
 //미들웨어
 //생성
 const addPostDB = (formData) => {
   return async function (dispatch, getState, { history }) {
     let _post = {
-      // ...initialPost,
+      ...initialState,
       formData,
     };
+    console.log(_post);
     await axios({
       method: 'post',
       url: `${BASE_URL}/api/posts`,
@@ -74,13 +47,13 @@ const addPostDB = (formData) => {
       },
     })
       .then((res) => {
-        console.log('token');
         console.log(res);
-        dispatch(addPost(_post));
 
+        dispatch(addPost(res.data));
         history.replace('/');
       })
       .catch((err) => {
+        window.alert('공란을 채워주세요');
         console.log('게시물작성실패', err);
       });
   };
@@ -99,7 +72,7 @@ const getOnePostDB = (postNum) => {
       url: `${BASE_URL}/api/posts?postNum=${postNum}`,
     })
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         dispatch(getOnePost(res.data));
       })
       .catch((err) => {
@@ -112,30 +85,16 @@ const getOnePostDB = (postNum) => {
 const getMainDB = () => {
   return async function (dispatch, getState, { history }) {
     await axios.get(`${BASE_URL}/api/main`).then((res) => {
-      console.log(res.data);
       const post = res.data;
+      console.log(post);
       dispatch(getMain(post));
     });
   };
 };
 
-//포스트 및 디테일
-// const getOnePostDB = (num) => {
-//   return async function (dispatch, getState, { history }) {
-//     await axios
-//       .get(`http://15.164.211.148/api/posts?postNum=${num}`)
-//       .then((res) => {
-//         let post = res.data.detail
-//         dispatch(getOnePost(post))
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//       })
-//   }
-// }
-
 //수정
 const editPostDB = (postNum, formData) => {
+  console.log(typeof postNum);
   return async function (dispatch, getState, { history }) {
     if (!postNum) {
       console.log('게시물 정보를 찾을 수 없어요.');
@@ -143,26 +102,27 @@ const editPostDB = (postNum, formData) => {
     }
     const preview = getState().picture.preview;
     console.log(preview);
-    const post_idx = getState().post.list.findIndex(
-      (p) => p.postNum === postNum
+    const post_idx = getState().post.list.posts.findIndex(
+      (p) => p.postNum === Number(postNum)
     );
-    const post = getState().post.list[post_idx];
-    let _post = {
-      ...post,
+    console.log(getState().post.list);
+    const _post = getState().post.list.posts[post_idx];
+    let post = {
+      ..._post,
       formData,
     };
-
     await axios({
       method: 'put',
       url: `${BASE_URL}/api/posts?postNum=${postNum}`,
       data: formData,
       headers: {
-        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+        'Content-Type': `multipart/form-data`,
         Authorization: `Bearer${localStorage.getItem('token')}`,
       },
     })
       .then((res) => {
-        dispatch(editPost(post));
+        console.log(res);
+        dispatch(editPost(postNum, res.data));
         console.log('수정되었습니다');
         history.push('/');
       })
@@ -179,14 +139,15 @@ const deletePostDB = (postNum) => {
   return async function (dispatch, getState, { history }) {
     await axios({
       method: 'delete',
-      url: `${BASE_URL}/api/posts?postNum=5`,
+      url: `${BASE_URL}/api/posts?postNum=${postNum}`,
       headers: {
         Authorization: `Bearer${localStorage.getItem('token')}`,
       },
     })
       .then((res) => {
-        console.lor(res);
-        dispatch(deletePost(5));
+        console.log(res);
+        dispatch(deletePost(postNum));
+        history.replace('/');
       })
       .catch((err) => {
         console.log(err);
@@ -228,19 +189,11 @@ export default handleActions(
   {
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.list.unshift(action.payload.post);
-      }),
-    [GET_POST]: (state, action) =>
-      produce(state, (draft) => {
-        draft.list = draft.list.reduce((acc, cur) => {
-          if (acc.findIndex((a) => a.num === cur.num) === -1) {
-            return [...acc, cur];
-          } else {
-            acc[acc.findIndex((a) => a.num === cur.num)] = cur;
-            return acc;
-          }
-        }, []);
-        draft.list = action.payload.posts;
+        console.log(state);
+        console.log(action.payload);
+        draft.list = action.payload.post;
+        // draft.list = [{ ...action.payload.post }, ...draft.list];
+        console.log(draft.list, action.payload.post);
       }),
     [GETONE_POST]: (state, action) =>
       produce(state, (draft) => {
@@ -249,22 +202,27 @@ export default handleActions(
       }),
     [EDIT_POST]: (state, action) =>
       produce(state, (draft) => {
-        let index = draft.list.findIndex(
-          (p) => p.num === action.payload.postNum
+        console.log(action.payload);
+        console.log(state);
+        let index = draft.list.posts.findIndex(
+          (p) => p.postNum === action.payload.postNum
         );
         console.log(index, '인덱스는?');
         draft.list[index] = { ...draft.list[index], ...action.payload.post };
       }),
     [GET_MAIN]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft);
-        console.log(action.payload);
         draft.list = action.payload.list;
         console.log(draft.list);
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.list = draft.list.filter((p) => p.num !== action.payload.post);
+        console.log(state);
+        console.log(action.payload);
+        let list = draft.list.posts.filter(
+          (p) => p.postNum !== action.payload.post
+        );
+        draft.list = [...list];
       }),
   },
   initialState
@@ -273,7 +231,6 @@ export default handleActions(
 const actionCreators = {
   addPost,
   addPostDB,
-  getPost,
   editPost,
   editPostDB,
   getOnePost,

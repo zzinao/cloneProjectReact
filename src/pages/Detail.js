@@ -67,8 +67,7 @@ const Detail = (props) => {
                         if (
                           window.confirm('게시물을 삭제하시겠어요?') === true
                         ) {
-                          dispatch(postActions.deletePostDB());
-                          history.replace('/');
+                          dispatch(postActions.deletePostDB(postNum));
                         }
                       }}
                     >
@@ -82,7 +81,6 @@ const Detail = (props) => {
                     <button
                       onClick={() => {
                         history.push(`/postWrite/${postNum}`);
-                        window.location.reload();
                       }}
                     >
                       수정

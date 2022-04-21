@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const Button = (props) => {
   const {
@@ -13,7 +13,7 @@ const Button = (props) => {
     _id,
     bg,
     fontSize,
-  } = props
+  } = props;
 
   const styles = {
     margin: margin,
@@ -21,22 +21,22 @@ const Button = (props) => {
     padding: padding,
     bg: bg,
     fontSize: fontSize,
-  }
+  };
 
   if (is_float) {
     return (
       <React.Fragment>
         <FloatButton onClick={_onClick}>{text ? text : children}</FloatButton>
       </React.Fragment>
-    )
+    );
   }
 
   return (
     <ElButton onClick={_onClick} id={_id} {...styles}>
       {text ? text : children}
     </ElButton>
-  )
-}
+  );
+};
 
 Button.defaultProps = {
   text: false,
@@ -49,17 +49,14 @@ Button.defaultProps = {
   _color: false,
   bg: false,
   fontSize: '',
-}
+};
 
 const ElButton = styled.button`
   cursor: pointer;
   font-size: 18px;
   ${(props) => (props.width ? `width: ${props.width};` : '100px')};
   ${(props) => (props.bg ? `background: ${props.bg};` : `background: #212121;`)}
-  ${(props) =>
-    props.color
-      ? `color: ${props.color};`
-      : `color: #fff;`}
+  ${(props) => (props.color ? `color: ${props.color};` : `color: #fff;`)}
   box-sizing: border-box;
   padding: ${(props) => props.padding};
   border: none;
@@ -67,7 +64,7 @@ const ElButton = styled.button`
   ${(props) => (props.margin ? `margin: ${props.margin};` : '')}
   ${(props) =>
     props.fontSize ? `font-size: ${props.fontSize};` : `font-size : 15px`}
-`
+`;
 
 const FloatButton = styled.button`
   width: 50px;
@@ -84,6 +81,6 @@ const FloatButton = styled.button`
   vertical-align: middle;
   border: none;
   border-radius: 50px;
-`
-export default Button
+`;
+export default Button;
 //test
