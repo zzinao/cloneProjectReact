@@ -216,20 +216,28 @@ const isLikeDB = (postNum, likeCheck, unlikeCheck, likeNum) => {
     unlikeCheck,
   )
   return async function (dispatch, getState, { history }) {
-    await axios
-      .post(
-        `${BASE_URL}/api/like?postNum=${postNum}`,
-        JSON.stringify({
-          likeCheck: likeCheck,
-          unlikeCheck: unlikeCheck,
-        }),
-        {
-          headers: {
-            'Content-Type': `application/json`,
-            Authorization: `Bearer${localStorage.getItem('token')}`,
-          },
-        },
-      )
+    await axios({
+      method: 'post',
+      url: `${BASE_URL}/api/like?postNum=${postNum}`,
+      data: { likeCheck: likeCheck, unlikeCheck: unlikeCheck },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer${localStorage.getItem('token')}`,
+      },
+    })
+      // .post(
+      //   `${BASE_URL}/api/like?postNum=${postNum}`,
+
+      //     data:{ likeCheck: likeCheck,
+      //     unlikeCheck: unlikeCheck,},
+
+      //   {
+      //     headers: {
+      //       'Content-Type': `application/json`,
+      //       Authorization: `Bearer${localStorage.getItem('token')}`,
+      //     },
+      //   },
+      // )
       .then((res) => {
         const _like = res.data.result
 
@@ -377,12 +385,12 @@ export default handleActions(
           likeCheck
             ? (draft.detail = {
                 ...draft.detail,
-                likeCheck: likeCheck,
+                likeCheck: !likeCheck,
                 postLikeNum: draft.detail.postLikeNum - 1,
               })
             : (draft.detail = {
                 ...draft.detail,
-                likeCheck: likeCheck,
+                likeCheck: !likeCheck,
                 postLikeNum: draft.detail.postLikeNum + 1,
               })
         }
@@ -396,15 +404,15 @@ export default handleActions(
         const { unlikeCheck } = action.payload
 
         {
-          !unlikeCheck
+          unlikeCheck
             ? (draft.detail = {
                 ...draft.detail,
-                unlikeCheck: unlikeCheck,
+                unlikeCheck: !unlikeCheck,
                 postUnlikeNum: draft.detail.postUnlikeNum - 1,
               })
             : (draft.detail = {
                 ...draft.detail,
-                unlikeCheck: unlikeCheck,
+                unlikeCheck: !unlikeCheck,
                 postUnlikeNum: draft.detail.postUnlikeNum + 1,
               })
         }
@@ -417,12 +425,12 @@ export default handleActions(
           !subscribeCheck
             ? (draft.detail = {
                 ...draft.detail,
-                subscribeCheck: subscribeCheck,
+                subscribeCheck: !subscribeCheck,
                 userSubscribe: draft.detail.userSubscribe - 1,
               })
             : (draft.detail = {
                 ...draft.detail,
-                subscribeCheck: subscribeCheck,
+                subscribeCheck: !subscribeCheck,
                 userSubscribe: draft.detail.userSubscribe + 1,
               })
         }

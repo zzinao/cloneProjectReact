@@ -18,14 +18,6 @@ const Detail = (props) => {
 
   const detail = useSelector((state) => state.post.detail)
 
-  //like check props로 보내 줄 것 ~~
-  const likeCheck = useSelector((state) => state.post.detail)
-  const data = useSelector((state) => state.post)
-  console.log(likeCheck)
-
-  console.log(likeCheck)
-  // console.log(likeCheck)
-
   //게시물 불러오기
   React.useEffect(() => {
     dispatch(postActions.getOnePostDB(postNum))
@@ -57,8 +49,8 @@ const Detail = (props) => {
                 {changeTime(detail?.postDate)}
               </Text>
               <Grid isFlex>
-                <LikeIcon {...likeCheck} />
-                <DisLikeIcon {...likeCheck} />
+                <LikeIcon {...detail} />
+                <DisLikeIcon {...detail} />
                 <Text color="#fff" weight="700" margin=" 0 8px">
                   공유
                 </Text>
@@ -86,7 +78,7 @@ const Detail = (props) => {
                   >
                     {detail?.userNick}
                   </Text>
-                  <SubsBtn {...likeCheck} />
+                  <SubsBtn {...detail} />
                 </Grid>
                 <Text margin="3px 0" size="12px" color="#aaa" weight="500">
                   구독자수 {detail?.userSubscribe}

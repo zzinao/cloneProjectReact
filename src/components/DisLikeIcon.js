@@ -8,22 +8,18 @@ import { actionCreators as postAction } from '../redux/modules/post'
 
 const DisLikeIcon = (props) => {
   const isMyLike = props.likeCheck
-  let isMyUnlike = props.unlikeCheck
-
-  const [unlike, setUnLike] = React.useState(isMyUnlike)
+  let myUnlike = props.unlikeCheck
+  let unlikeNum = props.unlikeNum
   const dispatch = useDispatch()
-
+  console.log(myUnlike)
   //likeCheck, unLikeCheck
   const { postNum } = useParams()
 
   const toggleDisLike = () => {
-    // console.log(',,,')
-    // if (unlike) {
-    dispatch(postAction.unlikeDB(postNum, isMyLike, !isMyUnlike))
-    setUnLike(!unlike)
+    dispatch(postAction.unlikeDB(postNum, isMyLike, !myUnlike, unlikeNum))
   }
-  // }
-  if (unlike) {
+
+  if (myUnlike) {
     return (
       <Grid isFlex margin="0 15px;">
         <AiTwotoneDislike color="#fff" onClick={toggleDisLike} /> &nbsp;

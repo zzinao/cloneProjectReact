@@ -5,25 +5,21 @@ import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { AiFillLike, AiOutlineLike } from 'react-icons/ai'
 import { actionCreators as postAction } from '../redux/modules/post'
-//변수명 좀 쉽게 다시 쓰귀.....
+
 const LikeIcon = (props) => {
-  const isMyLike = props.likeCheck
+  let myLike = props.likeCheck
   let isMyUnlike = props.unlikeCheck
   const likeNum = props.postLikeNum
-
-  const [like, setLike] = React.useState(isMyLike)
   const dispatch = useDispatch()
 
   //likeCheck, unLikeCheck
   const { postNum } = useParams()
 
   const toggleLike = () => {
-    dispatch(postAction.isLikeDB(postNum, like, isMyUnlike, likeNum))
-    setLike(!like)
+    dispatch(postAction.isLikeDB(postNum, myLike, isMyUnlike, likeNum))
   }
-  // }
 
-  if (!like) {
+  if (!myLike) {
     return (
       <Grid isFlex margin="0 15px;">
         <AiOutlineLike color="#fff" onClick={toggleLike} /> &nbsp;

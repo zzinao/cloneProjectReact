@@ -16,7 +16,6 @@ const Main = () => {
 
   return (
     <>
-      {/* <Header /> */}
       <Grid isFlex>
         <Sidebar />
         <PostList />

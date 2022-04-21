@@ -17,11 +17,14 @@ import { getToken } from './Token'
 //분기 최소화 리팩토링 해야됨!!!!!
 const Header = (props) => {
   const userInfo = useSelector((state) => state.user.user)
-
-  const dispatch = useDispatch()
-
-  const token = getToken ? true : false
   const is_login = useSelector((state) => state.user.is_login)
+  const dispatch = useDispatch()
+  const token = getToken ? true : false
+  if (
+    window.location.pathname === '/login' ||
+    window.location.pathname === '/signup'
+  )
+    return null
 
   if (token && is_login) {
     return (

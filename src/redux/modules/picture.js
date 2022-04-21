@@ -17,7 +17,7 @@ const initialState = {
   image: '',
   uploading: false,
   preview: null,
-  video: null,
+  videopreview: null,
 }
 
 //리듀서

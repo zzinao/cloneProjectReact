@@ -38,9 +38,15 @@ function App() {
   } else {
     return (
       <>
+        <Header />
         <ConnectedRouter history={history}>
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
+          <Route path="/" exact component={Main} />
+          <Route path="/search/:id" exact component={SearchPage} />
+          <Route path="/postWrite/" exact component={PostWrite} />
+          <Route path="/postWrite/:postNum" exact component={PostWrite} />
+          <Route path="/detail/:postNum" exact component={Detail} />
         </ConnectedRouter>
       </>
     )
