@@ -20,9 +20,7 @@ const PostWrite = (props) => {
     console.log('getpost 가져오기');
   }, []);
 
-  const { history } = props;
-
-  // const preview = useSelector((state) => state.picture.preview);
+  // const { history } = props;
 
   const posts = useSelector((state) => state.post.list);
   if (posts) {
@@ -78,7 +76,9 @@ const PostWrite = (props) => {
     'https://t1.daumcdn.net/cfile/tistory/997E5C3C5BA1E68137'
   );
   const [preview, setPreview] = useState(
-    'https://pbs.twimg.com/profile_images/1226774390387294210/OeCeNAcZ_400x400.jpg'
+    _post
+      ? thumb
+      : 'https://pbs.twimg.com/profile_images/1226774390387294210/OeCeNAcZ_400x400.jpg'
   );
 
   const selectImage = (e) => {
@@ -332,7 +332,6 @@ const Container = styled.div`
   margin: 50px auto;
   max-width: 1300px;
   display: flex;
-  /* background-color: #282828; */
   border-radius: 30px;
   padding: 50px;
 

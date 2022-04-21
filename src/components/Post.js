@@ -7,6 +7,7 @@ import styled from 'styled-components';
 const Post = (props) => {
   const [hover, setHover] = useState(false);
   return (
+    // const modal = document.querySelector('.modal')
     <>
       <Container
         onClick={() => {
@@ -75,6 +76,16 @@ const TitleBox = styled.div`
   left: 30%;
   display: inline-block;
   width: 70%;
+`;
+
+const modal = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.4);
 `;
 
 export default Post;
