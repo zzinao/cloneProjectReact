@@ -32,19 +32,19 @@ const initialState = {
 //MIDDLE WARES
 
 //회원가입 API 받으면 테스트~
-const signupDB = (dic) => {
+const signupDB = (id, pw, nick) => {
   return async function (dispatch, getState, { history }) {
     //변수 재할당
-    const { id: userId, pw: userPw, nick: userNick } = dic
-    console.log(userId, userPw, userNick)
+    // const { id: userId, pw: userPw, nick: userNick } = dic
+    // console.log(userId, userPw, userNick)
 
     await axios
       .post(
         `${BASE_URL}/user/signup`,
         JSON.stringify({
-          userId: userId,
-          userPw: userPw,
-          userNick: userNick,
+          userId: id,
+          userPw: pw,
+          userNick: nick,
         }),
         { headers: { 'Content-Type': `application/json` } },
       )

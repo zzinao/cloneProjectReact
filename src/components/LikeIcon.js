@@ -10,19 +10,14 @@ const LikeIcon = (props) => {
   const isMyLike = props.likeCheck
   let isMyUnlike = props.unlikeCheck
   const likeNum = props.postLikeNum
-  console.log(isMyLike)
-  console.log(props)
+
   const [like, setLike] = React.useState(isMyLike)
   const dispatch = useDispatch()
 
   //likeCheck, unLikeCheck
   const { postNum } = useParams()
 
-  console.log(like)
-
   const toggleLike = () => {
-    // console.log(',,,')
-    // if (like) {
     dispatch(postAction.isLikeDB(postNum, like, isMyUnlike, likeNum))
     setLike(!like)
   }

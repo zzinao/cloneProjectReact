@@ -72,7 +72,7 @@ const Detail = (props) => {
             <Parent>
               <Image
                 shape="profile"
-                src={detail?.userProfile}
+                src_01={detail?.userProfile}
                 margin="5px 20px 0 0"
                 size="50"
               />

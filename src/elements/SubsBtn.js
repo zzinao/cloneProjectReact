@@ -6,20 +6,20 @@ import { Button } from './index'
 
 const SubsBtn = (props) => {
   const dispatch = useDispatch()
-  const userSub = props.userInfo?.userId
+  const userSub = props.userId
   const subCheck = props.subscribeCheck
 
   const [subs, setSubs] = React.useState(subCheck)
 
-  console.log(subCheck, !subs)
+  console.log(props)
+
+  console.log(subCheck, subs, userSub)
 
   const toggleSubs = () => {
-    // if (subs) {
     dispatch(postAction.getSubsDB(userSub, subs))
     setSubs(!subs)
   }
   //   }
-
   return (
     <>
       <Button
@@ -27,7 +27,7 @@ const SubsBtn = (props) => {
         padding="5px 10px"
         marign="0"
         text="구독"
-        bg="#CC0000"
+        bg={!subs ? '#aaa' : '#CC0000'}
         _onClick={toggleSubs}
       ></Button>
     </>

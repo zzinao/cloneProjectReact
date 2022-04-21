@@ -24,6 +24,7 @@ Grid.defaultProps = {
   isFlex_center: false,
   isFlex_start: false,
   isFlex_end: false,
+  isFlex_top: false,
   width: '100%',
   padding: false,
   margin: false,
@@ -32,6 +33,7 @@ Grid.defaultProps = {
   _onClick: () => {},
   _cursor: false,
   flexColumn: false,
+  _flexColumn: false,
 }
 
 const GridBox = styled.div`
@@ -49,6 +51,8 @@ ${(props) =>
     ? `display: flex; align-items: center; justify-content: start;`
     : null}
 ${(props) =>
+  props.isFlex_top ? `display: flex; justify-content: start;` : null}
+${(props) =>
   props.isFlex_end
     ? `display: flex; align-items: center; justify-content: end;`
     : null}
@@ -63,6 +67,11 @@ ${(props) =>
     props.flexColumn
       ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
       : null};
+      ${(props) =>
+        props._flexColumn
+          ? `display: flex; flex-direction: column; justify-content: center; `
+          : null};
+    
 `
 
 export default Grid

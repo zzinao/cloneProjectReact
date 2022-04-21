@@ -6,6 +6,7 @@ import { changeTime } from '../shared/ChangeTime'
 // import ReactPlayer from 'react-player/lazy'
 
 const SearchPost = (props) => {
+  console.log(props)
   return (
     <>
       <Container
@@ -13,35 +14,46 @@ const SearchPost = (props) => {
           history.push(`/detail/${props.postNum}`)
         }}
       >
-        <Image shape="rectangle" scr_01={props.postThumb} />
-        {/* <Preview src={props.postThumb} /> */}
-        {/* <ReactPlayer url={props.postVideo} playing={false} muted={false} /> */}
-        <Parent>
-          <Image
-            shape="profile"
-            src_01={props.userInfo.userProfile}
-            margin="5px 20px 0 0"
-          />
-          <TitleBox>
-            <Text margin="0" size="16px" weight="700" color="#fff">
-              {props.userInfo.userId}
-            </Text>
-            <Text margin="3px 0" size="14px" color="#aaa" weight="500">
+        <Grid isFlex_top>
+          <Image src_01={props.postThumb} minWidth="400px" shape="rectangle" />
+
+          <Grid _flexColumn margin="0 30px;">
+            <Text margin="0" size="18px" weight="700" color="#fff">
               {props.postTitle}
             </Text>
-            <Text margin="0" color="#aaa" size="14px">
-              {props.postCnt} &nbsp; {changeTime(props.postDate)}
+            <Text size="12px" color="#aaa">
+              조회수 {props.postCnt} &nbsp; {changeTime(props.postDate)}
             </Text>
-          </TitleBox>
-        </Parent>
+
+            <Grid isFlex_start>
+              <Image
+                shape="profile"
+                src_01={props.userInfo?.userProfile}
+                margin="0 15px 0 0"
+                size="28"
+              />
+              <Text size="12px" color="#aaa">
+                {props?.userInfo?.userNick}
+              </Text>
+            </Grid>
+
+            <Text size="12px" color="#aaa">
+              {props.postDesc}
+            </Text>
+          </Grid>
+        </Grid>
+
+        {/* <Image shape="rectangle" scr_01={props.postThumb} /> */}
+        {/* <Preview src={props.postThumb} /> */}
+        {/* <ReactPlayer url={props.postVideo} playing={false} muted={false} /> */}
       </Container>
     </>
   )
 }
 
 const Container = styled.div`
-  width: 293px;
-  margin: 20px;
+  // width: 293px;
+  margin: 30px;
   cursor: pointer;
 `
 
@@ -52,18 +64,13 @@ const Preview = styled.div`
 `
 
 const Parent = styled.div`
-  display: flex;
-  align-items: flex-start;
-  height: 50px;
-  margin: 10px 0 0;
+  // display: flex;
+  // align-items: flex-start;
+  // height: 50px;
+  // margin: 10px 0 0;
 `
 const TitleBox = styled.div`
-  margin: 5px;
-  font-size: 1em;
-  font-weigth: bold;
-  left: 30%,
-  display: inline-block;
-  width: 70%
-  `
+  display: flex;
+`
 
 export default SearchPost

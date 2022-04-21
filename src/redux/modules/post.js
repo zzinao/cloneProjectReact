@@ -101,6 +101,7 @@ const getOnePostDB = (postNum) => {
           postLikeNum: post.postLikeNum,
           postUnlikeNum: post.postUnlikeNum,
           userNick: post.userInfo.userNick,
+          userId: post.userInfo.userId,
           userProfile: post.userInfo.userProfile,
           userSubscribe: post.userInfo.userSubscribe,
           likeCheck: res.data.likeCheck,
@@ -294,7 +295,7 @@ const getSubsDB = (userSub, subCheck) => {
       .then((res) => {
         console.log(res)
         const _sub = res.data.result
-        dispatch(getSubs())
+        dispatch(getSubs(userSub, subCheck))
       })
       .catch((err) => {
         console.log('에ㅔ러', err)
@@ -312,7 +313,9 @@ const searchDB = (searchWord = null) => {
       },
     })
       .then((res) => {
-        dispatch(getSearch(res.data))
+        console.log(res.data)
+        let list = [...res.data.posts]
+        dispatch(getSearch(list))
       })
       .catch((err) => {
         console.log('err', err)
@@ -354,13 +357,11 @@ export default handleActions(
     [GET_MAIN]: (state, action) =>
       produce(state, (draft) => {
         draft.list = action.payload.list
-        console.log(draft.list)
       }),
 
     [GET_SEARCH]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft.search)
-        draft.search = action.payload.search
+        draft.search = [...action.payload.post]
       }),
 
     //       [GET_SEARCH]: (state, action) =>

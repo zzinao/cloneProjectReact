@@ -55,8 +55,8 @@ const addCommentDB = (contents, postNum) => {
   let list = {
     ...initialComment,
   }
-  list[0].postNum = postNum
-  list[0].contents = contents
+  list.postNum = postNum
+  list.contents = contents
 
   return async function (dispatch, getState, { history }) {
     await axios
@@ -169,7 +169,7 @@ export default handleActions(
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        draft.list = [{ ...action.payload.comment }, ...draft.list]
+        draft.list = [{ ...action.payload.comment }]
       }),
 
     [UPDATE_COMMENT]: (state, action) =>

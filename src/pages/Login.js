@@ -41,9 +41,14 @@ const Login = (props) => {
               label="ID"
               value={logins.id}
               padding="10px"
-              placeholder="Email or Phone"
+              placeholder="Id"
               _onChange={handleChange}
             />
+            {submitted && !logins.id && (
+              <Text align="left" size="12px" margin="0" color="#5DC2B1">
+                아이디를 입력하세요!
+              </Text>
+            )}
           </Grid>
           <Grid margin="10px">
             <Input
@@ -56,6 +61,11 @@ const Login = (props) => {
               placeholder="Password"
               _onChange={handleChange}
             />
+            {submitted && !logins.pwd ? (
+              <Text align="left" size="12px" margin="0" color="#5DC2B1">
+                패스워드를 입력하세요!
+              </Text>
+            ) : null}
           </Grid>
           <Button bg="#0583F2" margin="20px 0 0" _onClick={login}>
             Sign in

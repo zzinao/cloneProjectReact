@@ -64,7 +64,11 @@ const Header = (props) => {
                     dispatch(userActions.logOutDB({}))
                   }}
                 />
-                <Image shape="profile" src_01={userInfo.userProfile} />
+                <Image
+                  shape="profile"
+                  src_01={userInfo?.userProfile}
+                  margin="0 20px;"
+                />
               </Grid>
               <Grid isFlex></Grid>
             </Grid>

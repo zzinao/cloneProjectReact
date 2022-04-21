@@ -13,7 +13,7 @@ const Search = () => {
   const handleSearch = () => {
     const searchWord = searchRef.current.value
     dispatch(postActions.searchDB(searchWord))
-    history.push(`/search/&{searchWord}`)
+    history.push(`/search/${searchWord}`)
   }
 
   return (

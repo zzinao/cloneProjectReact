@@ -14,14 +14,10 @@ const PostList = (props) => {
   }, [])
 
   return (
-    <React.Fragment>
+    <VideoList>
       {list ? (
         list.map((post, i) => {
-          return (
-            <VideoList key={post._id}>
-              <Post {...post} />
-            </VideoList>
-          )
+          return <Post {...post} />
         })
       ) : (
         <>
@@ -30,15 +26,16 @@ const PostList = (props) => {
           </Text>
         </>
       )}
-    </React.Fragment>
+    </VideoList>
   )
 }
 
 const VideoList = styled.div`
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 1.2rem;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   margin: 0 0 0 210px;
+  width: 80%;
 
   justify-content: ;
 `
