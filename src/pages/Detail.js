@@ -7,6 +7,7 @@ import Header from '../shared/Header'
 import styled from 'styled-components'
 import CommentWrite from '../components/CommentWrite'
 import CommentList from '../components/CommentList'
+import { history } from '../redux/configureStore'
 import { changeTime } from '../shared/ChangeTime'
 import { actionCreators as postActions } from '../redux/modules/post'
 import { useSelector, useDispatch } from 'react-redux'
@@ -17,6 +18,8 @@ const Detail = (props) => {
   const dispatch = useDispatch()
 
   const detail = useSelector((state) => state.post.detail)
+  const user_info = useSelector((state) => state?.user)
+  const is_login = useSelector((state) => state?.user?.is_login)
 
   //게시물 불러오기
   React.useEffect(() => {
@@ -31,8 +34,6 @@ const Detail = (props) => {
           playing={true}
           muted={false}
           light={true}
-          playing
-          loop
           controls
           width={'100%'}
           className="detail_video"
@@ -54,6 +55,35 @@ const Detail = (props) => {
                 <Text color="#fff" weight="700" margin=" 0 8px">
                   공유
                 </Text>
+                {/* 게시물 삭제 */}
+                {is_login ? (
+                  detail?.userId === user_info?.user?.userId ? (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        if (
+                          window.confirm('게시물을 삭제하시겠어요?') === true
+                        ) {
+                          dispatch(postActions.deletePostDB(postNum))
+                        }
+                      }}
+                    >
+                      삭제
+                    </button>
+                  ) : null
+                ) : null}
+                {/* 게시물 수정 */}
+                {is_login ? (
+                  detail?.userId === user_info?.user?.userId ? (
+                    <button
+                      onClick={() => {
+                        history.push(`/postWrite/${postNum}`)
+                      }}
+                    >
+                      수정
+                    </button>
+                  ) : null
+                ) : null}
               </Grid>
             </Grid>
           </TitleBox>

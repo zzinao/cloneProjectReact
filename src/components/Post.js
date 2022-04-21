@@ -23,10 +23,10 @@ const Post = (props) => {
           />
           <TitleBox>
             <Text margin="0" size="16px" weight="700" color="#fff">
-              {props.userInfo.userId}
+              {props.postTitle}
             </Text>
             <Text margin="3px 0" size="14px" color="#aaa" weight="500">
-              {props.postTitle}
+              {props?.userInfo?.userId}
             </Text>
             <Text margin="0" color="#aaa" size="14px">
               {props.postCnt} &nbsp; {changeTime(props.postDate)}

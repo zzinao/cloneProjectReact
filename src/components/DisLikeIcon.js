@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, Grid } from '../elements/index'
-import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { AiTwotoneDislike, AiOutlineDislike } from 'react-icons/ai'
@@ -16,7 +15,7 @@ const DisLikeIcon = (props) => {
   const { postNum } = useParams()
 
   const toggleDisLike = () => {
-    dispatch(postAction.unlikeDB(postNum, isMyLike, !myUnlike, unlikeNum))
+    dispatch(postAction.unlikeDB(postNum, isMyLike, myUnlike, unlikeNum))
   }
 
   if (myUnlike) {

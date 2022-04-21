@@ -10,6 +10,7 @@ const ADD_POST = 'ADD_POST'
 const GET_POST = 'GET_POST'
 const GETONE_POST = 'GETONE_POST'
 const EDIT_POST = 'EDIT_POST'
+const DELETE_POST = 'DELETE_POST'
 const GET_MAIN = 'GET_MAIN'
 const GET_SEARCH = 'GET_SEARCH'
 //라이크 부분
@@ -25,6 +26,7 @@ const editPost = createAction(EDIT_POST, (postNum, post) => ({
   postNum,
   post,
 }))
+const deletePost = createAction(DELETE_POST, (post) => ({ post }))
 const getMain = createAction(GET_MAIN, (list) => ({ list }))
 const getSearch = createAction(GET_SEARCH, (post) => ({ post }))
 const isLike = createAction(IS_LIKE, (likeCheck, likeCount) => ({
@@ -41,17 +43,12 @@ const initialState = {
   search: [],
 }
 
-// const initialPost = {
-//   image: '',
-//   content: '',
-// };
-
 //미들웨어
 //생성
 const addPostDB = (formData) => {
   return async function (dispatch, getState, { history }) {
     let _post = {
-      // ...initialPost,
+      ...initialState,
       formData,
     }
     await axios({
@@ -64,13 +61,13 @@ const addPostDB = (formData) => {
       },
     })
       .then((res) => {
-        console.log('token')
         console.log(res)
-        dispatch(addPost(_post))
 
-        // history.push("/main");
+        dispatch(addPost(res.data))
+        history.replace('/')
       })
       .catch((err) => {
+        window.alert('공란을 채워주세요')
         console.log('게시물작성실패', err)
       })
   }
@@ -122,55 +119,46 @@ const getOnePostDB = (postNum) => {
 const getMainDB = () => {
   return async function (dispatch, getState, { history }) {
     await axios.get(`${BASE_URL}/api/main`).then((res) => {
-      console.log(res.data)
       const post = res.data
+      console.log(post)
       dispatch(getMain(post))
     })
   }
 }
 
-//포스트 및 디테일
-// const getOnePostDB = (num) => {
-//   return async function (dispatch, getState, { history }) {
-//     await axios
-//       .get(`http://15.164.211.148/api/posts?postNum=${num}`)
-//       .then((res) => {
-//         let post = res.data.detail
-//         dispatch(getOnePost(post))
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//       })
-//   }
-// }
-
 //수정
-const editPostDB = (num, formData) => {
+const editPostDB = (postNum, formData) => {
+  console.log(typeof postNum)
   return async function (dispatch, getState, { history }) {
-    if (!num) {
+    if (!postNum) {
       console.log('게시물 정보를 찾을 수 없어요.')
       return
     }
-    const _post_index = getState().post.list.findIndex((p) => p.num === num)
-    const _post = getState().post.list[_post_index]
+    const preview = getState().picture.preview
+    console.log(preview)
+    const post_idx = getState().post.list.posts.findIndex(
+      (p) => p.postNum === Number(postNum),
+    )
+    console.log(getState().post.list)
+    const _post = getState().post.list.posts[post_idx]
     let post = {
       ..._post,
       formData,
     }
-
     await axios({
       method: 'put',
-      url: `http://15.164.211.148/api/posts?postNum=${num}`,
-      // url: 'https://reqres.in/api/users/2',
+      url: `${BASE_URL}/api/posts?postNum=${postNum}`,
       data: formData,
       headers: {
-        'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': `multipart/form-data`,
+        Authorization: `Bearer${localStorage.getItem('token')}`,
       },
     })
       .then((res) => {
-        dispatch(editPost(post))
-        history.push('/main')
+        console.log(res)
+        dispatch(editPost(postNum, res.data))
+        console.log('수정되었습니다')
+        history.push('/')
       })
       .catch((err) => {
         console.log(err)
@@ -178,34 +166,28 @@ const editPostDB = (num, formData) => {
   }
 }
 
-// const searchDB = (searchWord = null) => {
-//   console.log(searchWord)
-//   return async function (dispatch, getState, { history }) {
-//     await axios({
-//       method: 'get',
-//       url: `${BASE_URL}/api/search?keyword=${searchWord}`,
-//       headers: {
-//         'Content-Type': `application/json`,
-//       },
-//     }).then((res) => {
-//       let search = [...res.data.posts]
-//       let search_list = []
+//삭제
+const deletePostDB = (postNum) => {
+  console.log(postNum)
 
-//       search.forEach((post) =>
-//         search_list.push({
-//           postCnt: post.postCnt,
-//           postDate: post.postDate,
-//           postThumb: post.postThumb,
-//           postTile: post.postTitle,
-//           postVideo: post.postVideo,
-//           userNick: post.userInfo.userNick,
-//           userProfile: post.userProfile,
-//         }),
-//       )
-//       dispatch(getSearch(search_list))
-//     })
-//   }
-// }
+  return async function (dispatch, getState, { history }) {
+    await axios({
+      method: 'delete',
+      url: `${BASE_URL}/api/posts?postNum=${postNum}`,
+      headers: {
+        Authorization: `Bearer${localStorage.getItem('token')}`,
+      },
+    })
+      .then((res) => {
+        console.log(res)
+        dispatch(deletePost(postNum))
+        history.replace('/')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+}
 
 const isLikeDB = (postNum, likeCheck, unlikeCheck, likeNum) => {
   console.log(postNum, likeCheck, unlikeCheck)
@@ -336,7 +318,11 @@ export default handleActions(
   {
     [ADD_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.list.unshift(action.payload.post)
+        console.log(state)
+        console.log(action.payload)
+        draft.list = action.payload.post
+        // draft.list = [{ ...action.payload.post }, ...draft.list];
+        console.log(draft.list, action.payload.post)
       }),
     [GET_POST]: (state, action) =>
       produce(state, (draft) => {
@@ -356,8 +342,10 @@ export default handleActions(
       }),
     [EDIT_POST]: (state, action) =>
       produce(state, (draft) => {
-        let index = draft.list.findIndex(
-          (p) => p.num === action.payload.postNum,
+        console.log(action.payload)
+        console.log(state)
+        let index = draft.list.posts.findIndex(
+          (p) => p.postNum === action.payload.postNum,
         )
         console.log(index, '인덱스는?')
         draft.list[index] = { ...draft.list[index], ...action.payload.post }
@@ -435,6 +423,20 @@ export default handleActions(
               })
         }
       }),
+    [GET_MAIN]: (state, action) =>
+      produce(state, (draft) => {
+        draft.list = action.payload.list
+        console.log(draft.list)
+      }),
+    [DELETE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        console.log(state)
+        console.log(action.payload)
+        let list = draft.list.posts.filter(
+          (p) => p.postNum !== action.payload.post,
+        )
+        draft.list = [...list]
+      }),
   },
   initialState,
 )
@@ -452,6 +454,8 @@ const actionCreators = {
   isLikeDB,
   unlikeDB,
   getSubsDB,
+  deletePost,
+  deletePostDB,
 }
 
 export { actionCreators }

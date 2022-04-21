@@ -26,7 +26,7 @@ const Header = (props) => {
   )
     return null
 
-  if (token && is_login) {
+  if (token) {
     return (
       <HeaderContainer>
         <Grid className="header">
