@@ -3,12 +3,23 @@ import styled from 'styled-components'
 import { Text, Image, Grid } from '../elements/index'
 
 const SubList = (props) => {
+  console.log(props)
   return (
     <>
       <List isFlex_start>
         <Image
           shape="profile"
-          src={props.userSub.userProfile}
+          src_01={props.userSub.userProfile}
+          margin="0 20px 0 0"
+        />
+        <Text size="14px" color="#fff">
+          {props.userSub.userNick}
+        </Text>
+      </List>
+      <List isFlex_start>
+        <Image
+          shape="profile"
+          src_01={props.userSub.userProfile}
           margin="0 20px 0 0"
         />
         <Text size="14px" color="#fff">

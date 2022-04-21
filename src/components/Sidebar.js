@@ -10,6 +10,9 @@ import { MdOutlineSubscriptions, MdOutlineSmartDisplay } from 'react-icons/md'
 import { AiOutlineLike } from 'react-icons/ai'
 
 const Sidebar = (pros) => {
+  const comming = () => {
+    alert('comming soon..!')
+  }
   return (
     <>
       <Container>
@@ -20,7 +23,7 @@ const Sidebar = (pros) => {
           </Text>
         </Btn>
 
-        <Btn>
+        <Btn onClick={comming}>
           <MdOutlineSubscriptions
             size="20"
             color="#fff"
@@ -31,19 +34,19 @@ const Sidebar = (pros) => {
           </Text>
         </Btn>
         <Hr />
-        <Btn>
+        <Btn onClick={comming}>
           <AiOutlineLike size="20" color="#fff" className="nav_icons" />
           <Text color="#fff" size="14px">
             좋이요 표시한 동영상
           </Text>
         </Btn>
-        <Btn>
+        <Btn onClick={comming}>
           <RiSaveLine size="20" color="#fff" className="nav_icons" />
           <Text color="#fff" size="14px">
             보관함
           </Text>
         </Btn>
-        <Btn>
+        <Btn onClick={comming}>
           <MdOutlineSmartDisplay size="20" color="#fff" className="nav_icons" />
           <Text color="#fff" size="14px">
             내 동영상

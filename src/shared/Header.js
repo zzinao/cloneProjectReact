@@ -14,13 +14,17 @@ import { RiLogoutBoxRLine, RiVideoAddFill } from 'react-icons/ri'
 import { MdApps, MdOutlineNotificationsNone } from 'react-icons/md'
 
 import { getToken } from './Token'
-//분기 최소화 리팩토링 해야됨
-
+//분기 최소화 리팩토링 해야됨!!!!!
 const Header = (props) => {
-  const dispatch = useDispatch()
-
-  const token = getToken ? true : false
+  const userInfo = useSelector((state) => state.user.user)
   const is_login = useSelector((state) => state.user.is_login)
+  const dispatch = useDispatch()
+  const token = getToken ? true : false
+  if (
+    window.location.pathname === '/login' ||
+    window.location.pathname === '/signup'
+  )
+    return null
 
   if (token) {
     return (
@@ -63,7 +67,11 @@ const Header = (props) => {
                     dispatch(userActions.logOutDB({}))
                   }}
                 />
-                <Image shape="profile" src={props.src} />
+                <Image
+                  shape="profile"
+                  src_01={userInfo?.userProfile}
+                  margin="0 20px;"
+                />
               </Grid>
               <Grid isFlex></Grid>
             </Grid>

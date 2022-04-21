@@ -37,8 +37,7 @@ Image.defaultProps = {
   src:
     'https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png',
 
-  src_01:
-    'https://image.msscdn.net/images/style/detail/26197/detail_26197_1_500.jpg',
+  src_01: '',
   src_02: '',
   margin: '',
   size: 30,
@@ -57,7 +56,7 @@ const ImageDefault = styled.div`
 //4:3비율 직사각형
 const AspectOutter = styled.div`
   ${(props) =>
-    props.minWidth ? `min-width: ${props.minWidth}` : `min-width: 140px;`}
+    props.minWidth ? `min-width: ${props.minWidth}` : `min-width: 160px;`};
   background-color: #eee;
   /* border: 1px solid red; */
 `
@@ -65,9 +64,9 @@ const AspectInner = styled.div`
   position: relative;
   width: 100%;
   height: 0;
-  padding-top: 70%;
+  padding-top: 60%;
   overflow: hidden;
-  background-image: url('${(props) => props.src_02}');
+  background-image: url('${(props) => props.src_01}');
   background-size: cover;
   background-position: top;
   /* border: 1px solid green; */

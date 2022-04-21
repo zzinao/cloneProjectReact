@@ -9,50 +9,93 @@ import logo from '../shared/img/google_logo.png'
 const Signup = (props) => {
   const dispatch = useDispatch()
   // 회원가입 state 관리
-  const [signup, setSignup] = useState({})
+  //기본 회원가입 폼 값
+  const [id, setId] = useState('')
+  const [pw, setPw] = useState('')
+  const [pwCheck, setPwCheck] = useState('')
+  const [nick, setNick] = useState('')
+
+  // const [signup, setSignup] = useState({})
   const [submitted, setSubmitted] = useState(false)
 
   // 오류메세지
   const [pwWarning, setPwWarning] = useState(false)
   const [idMessage, setIdMessage] = useState('')
-  const [nameMessage, setNameMessage] = useState('')
+  const [nickMessage, setNickMessage] = useState('')
   const [pwMessage, setPwMessage] = useState('')
   const [pwConfirmMessage, setPwConfirmMessage] = useState('')
 
   // 유효성 검사
   const [isId, setIsId] = useState(false)
-  const [isName, setIsName] = useState(false)
+  const [isNick, setIsNick] = useState(false)
   const [isPw, setIsPw] = useState(false)
   const [isPwConfirm, setIsPwConfirm] = useState(false)
 
-  const handleChange = (e) => {
-    const id = e.target.id
-    const value = e.target.value
-    setSignup((values) => ({ ...values, [id]: value }))
-  }
+  // const handleChange = (e) => {
+  //   const id = e.target.id
+  //   const value = e.target.value
+  //   setSignup((values) => ({ ...values, [id]: value }))
+  // }
 
   //아이디 체크
-  const onChangeId = () => {
-    if (signup.id.length < 4 || signup.id.length > 10) {
+  const onChangeId = (e) => {
+    setId(e.target.value)
+    if (e.target.value.id.length < 4 || e.target.value.id.length > 10) {
       setIdMessage('4자리 이상 10자리 미만으로 입력해주세요.')
       setIsId(false)
     } else {
-      setIdMessage('올바른 아이디 형식입니다 ☺️')
+      setIdMessage('올바른 아이디 형식입니다')
       setIsId(true)
     }
   }
+  //닉네임 체크
+  const onChangeNick = (e) => {
+    setNick(e.target.value)
+    if (e.target.value.nick.length < 2 || e.target.value.nick.length > 8) {
+      setNickMessage('2글자 이상 8글자 미만으로 입력해주세요.')
+      setIsNick(false)
+    } else {
+      setNickMessage('멋진 닉네임이네요!')
+      setIsNick(true)
+    }
+  }
 
+  //패스워드 체크
+  const onChangePw = (e) => {
+    const pwdRegex = /^[A-Za-z0-9]{6,12}$/
+    const pwCurrent = e.target.value
+    setPw(pwCurrent)
+
+    if (!pwdRegex.test(pwCurrent)) {
+      setPwMessage('숫자+영문자 조합 6~12자리 이상 입력해주세요!.')
+      setIsPw(false)
+    } else {
+      setPwMessage('안전한 비밀번호입니다')
+      setIsPw(true)
+    }
+  }
+  //패스워드 다시 체크
+  const onChangePwConfirm = (e) => {
+    const pwConfirmCurrent = e.target.value.pwCheck
+    setPwCheck(pwConfirmCurrent)
+    if (pw === pwConfirmCurrent) {
+      setPwConfirmMessage('비밀번호를 똑같이 입력했어요!')
+      setIsPwConfirm(true)
+    } else {
+      setPwConfirmMessage('비밀번호를 다시 확인해주세요!')
+      setIsPwConfirm(false)
+    }
+  }
   const signUp = () => {
-    if (!signup.id || !signup.pw || !signup.pwCheck || !signup.nick) {
+    if (!id || !pw || !pwCheck || !nick) {
       setSubmitted(true)
       return
     }
-    if (isId && isName && isPw && isPwConfirm) {
+    if (isId && isNick && isPw && isPwConfirm) {
       alert('가입이 정상적으로 완료되었습니다!')
       props.history.push('/login')
     }
-    dispatch(userActions.signupDB(signup))
-    console.log(signup)
+    dispatch(userActions.signupDB(id, pw, nick))
   }
 
   return (
@@ -68,14 +111,13 @@ const Signup = (props) => {
               fcBorder
               id="id"
               label="ID"
-              value={signup.id}
+              value={id}
               padding="10px"
-              placeholder="Email or Phone"
-              _onChange={handleChange}
-              onChange={onChangeId}
+              placeholder="Id"
+              _onChange={onChangeId}
             />
           </Grid>
-          {/* {signup.id.length > 0 && (
+          {id.length > 0 && (
             <Text
               align="left"
               size="12px"
@@ -85,8 +127,8 @@ const Signup = (props) => {
             >
               {idMessage}
             </Text>
-          )} */}
-          {submitted && !signup.id ? (
+          )}
+          {submitted && !id ? (
             <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
               아이디를 입력해주세요
             </Text>
@@ -95,13 +137,24 @@ const Signup = (props) => {
             <Input
               fcBorder
               id="nick"
-              value={signup.nick}
+              value={nick}
               padding="10px"
               label="Nickname"
               placeholder="Nickname"
-              _onChange={handleChange}
+              _onChange={onChangeNick}
             />
-            {submitted && !signup.nick ? (
+            {nick.length > 0 && (
+              <Text
+                align="left"
+                size="12px"
+                margin="0"
+                color="#5DC2B1"
+                className={`message ${isNick ? 'success' : 'error'}`}
+              >
+                {nickMessage}
+              </Text>
+            )}
+            {submitted && !nick ? (
               <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
                 닉네임을 입력해주세요
               </Text>
@@ -109,13 +162,25 @@ const Signup = (props) => {
             <Input
               fcBorder
               id="pw"
-              value={signup.pw}
+              value={pw}
+              type="password"
               padding="10px"
               label="Password"
               placeholder="Password"
-              _onChange={handleChange}
+              _onChange={onChangePw}
             />
-            {submitted && !signup.pw ? (
+            {pw.length > 0 && (
+              <Text
+                align="left"
+                size="12px"
+                margin="0"
+                color="#5DC2B1"
+                className={`message ${isPw ? 'success' : 'error'}`}
+              >
+                {pwMessage}
+              </Text>
+            )}
+            {submitted && !pw ? (
               <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
                 패스워드를 입력해주세요
               </Text>
@@ -123,14 +188,15 @@ const Signup = (props) => {
             <Input
               fcBorder
               id="pwCheck"
-              value={signup.pwCheck}
+              value={pwCheck}
+              type="password"
               padding="10px"
               label="Password"
               placeholder="Password"
-              _onChange={handleChange}
+              _onChange={onChangePwConfirm}
             />
           </Grid>
-          {submitted && !signup.pwCheck ? (
+          {submitted && !pwCheck ? (
             <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
               패스워드를 다시 입력해주세요
             </Text>
