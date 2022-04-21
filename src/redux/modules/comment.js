@@ -50,13 +50,8 @@ const initialComment = [
   },
 ]
 //MIDDLE WARES
-const addCommentDB = (contents, postNum) => {
+const addCommentDB = (contents, postNum, userNick, userProfile) => {
   console.log(contents, postNum)
-  let list = {
-    ...initialComment,
-  }
-  list.postNum = postNum
-  list.contents = contents
 
   return async function (dispatch, getState, { history }) {
     await axios
@@ -73,8 +68,16 @@ const addCommentDB = (contents, postNum) => {
         },
       )
       .then((res) => {
-        console.log(list)
-        dispatch(addComment(list))
+        let newComment = {
+          ...initialComment,
+
+          postNum: postNum,
+          contents: contents,
+          userNick: userNick,
+          userProfile: userProfile,
+        }
+        console.log(newComment)
+        dispatch(addComment(newComment))
       })
       .catch((err) => {
         console.log('게시물작성실패', err)
@@ -169,7 +172,8 @@ export default handleActions(
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        draft.list = [{ ...action.payload.comment }]
+        console.log(action.payload.comment)
+        draft.list = [{ ...action.payload.comment }, ...draft.list]
       }),
 
     [UPDATE_COMMENT]: (state, action) =>

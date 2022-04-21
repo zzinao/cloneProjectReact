@@ -40,7 +40,7 @@ const Signup = (props) => {
   //아이디 체크
   const onChangeId = (e) => {
     setId(e.target.value)
-    if (e.target.value.id.length < 4 || e.target.value.id.length > 10) {
+    if (e.target.value.length < 4 || e.target.value.length > 10) {
       setIdMessage('4자리 이상 10자리 미만으로 입력해주세요.')
       setIsId(false)
     } else {
@@ -51,7 +51,7 @@ const Signup = (props) => {
   //닉네임 체크
   const onChangeNick = (e) => {
     setNick(e.target.value)
-    if (e.target.value.nick.length < 2 || e.target.value.nick.length > 8) {
+    if (e.target.value.length < 2 || e.target.value.length > 8) {
       setNickMessage('2글자 이상 8글자 미만으로 입력해주세요.')
       setIsNick(false)
     } else {
@@ -76,7 +76,7 @@ const Signup = (props) => {
   }
   //패스워드 다시 체크
   const onChangePwConfirm = (e) => {
-    const pwConfirmCurrent = e.target.value.pwCheck
+    const pwConfirmCurrent = e.target.value
     setPwCheck(pwConfirmCurrent)
     if (pw === pwConfirmCurrent) {
       setPwConfirmMessage('비밀번호를 똑같이 입력했어요!')
@@ -122,7 +122,7 @@ const Signup = (props) => {
               align="left"
               size="12px"
               margin="0"
-              color="#5DC2B1"
+              color="#0583F2"
               className={`message ${isId ? 'success' : 'error'}`}
             >
               {idMessage}
@@ -148,7 +148,7 @@ const Signup = (props) => {
                 align="left"
                 size="12px"
                 margin="0"
-                color="#5DC2B1"
+                color="#0583F2"
                 className={`message ${isNick ? 'success' : 'error'}`}
               >
                 {nickMessage}
@@ -174,7 +174,7 @@ const Signup = (props) => {
                 align="left"
                 size="12px"
                 margin="0"
-                color="#5DC2B1"
+                color="#0583F2"
                 className={`message ${isPw ? 'success' : 'error'}`}
               >
                 {pwMessage}
@@ -196,6 +196,17 @@ const Signup = (props) => {
               _onChange={onChangePwConfirm}
             />
           </Grid>
+          {pwCheck.length > 0 && (
+            <Text
+              align="left"
+              size="12px"
+              margin="0"
+              color="#0583F2"
+              className={`message ${isPwConfirm ? 'success' : 'error'}`}
+            >
+              {pwConfirmMessage}
+            </Text>
+          )}
           {submitted && !pwCheck ? (
             <Text align="left" size="12px" margin="0 0 10px" color="#CC0000">
               패스워드를 다시 입력해주세요

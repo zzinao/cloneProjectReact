@@ -16,9 +16,10 @@ const Comment = (props) => {
   const deleteComment = () => {
     dispatch(commentActions.deleteCommentDB(commentNum))
   }
-  const updateComment = () => {
-    dispatch(commentActions.updateCommentDB(contents, commentNum))
-  }
+
+  // const updateComment = () => {
+  //   dispatch(commentActions.updateCommentDB(contents, commentNum))
+  // }
   // 왜 오류 뜨는지 확인하기....
   // const userProfile = props.userInfo.userProfile
 
@@ -43,16 +44,16 @@ const Comment = (props) => {
                 </Text>
               </Grid>
               <Grid isFelx_end>
-                <FaEdit
+                {/* <FaEdit
                   color="#aaa"
                   className="rgIcons"
                   onClick={updateComment}
-                />
-                <FaTrash
+                /> */}
+                {/* <FaTrash
                   color="#aaa"
                   className="rgIcons"
                   onClick={deleteComment}
-                />
+                /> */}
               </Grid>
             </Grid>
 
@@ -67,7 +68,7 @@ const Comment = (props) => {
 }
 
 const CommentBox = styled.div`
-  width: 85%;
+  width: 90%;
 `
 
 const Parent = styled.div`

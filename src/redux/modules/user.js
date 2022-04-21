@@ -75,10 +75,11 @@ const loginDB = (dic) => {
           const accessToken = res.data.loginToken
           localStorage.setItem('token', accessToken)
           dispatch(logIn(accessToken))
-          history.replace('/')
+         window.location.href="/"
         }
       })
       .catch((error) => {
+        alert('입력한 정보를 다시 확인해 주세요')
         console.log('에러에러', error)
       })
   }

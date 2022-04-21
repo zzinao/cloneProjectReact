@@ -20,15 +20,19 @@ const PostList = (props) => {
           return <Post {...post} />
         })
       ) : (
-        <>
+        <Container>
           <Text color="#fff" size="30px" weight="700">
-            텅텅...비디오를 올려주세요
+            비디오 불러오는 중...
           </Text>
-        </>
+        </Container>
       )}
     </VideoList>
   )
 }
+
+const Container = styled.div`
+  margin: 0 auto;
+`
 
 const VideoList = styled.div`
   display: grid;

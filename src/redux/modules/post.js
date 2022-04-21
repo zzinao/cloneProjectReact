@@ -79,7 +79,7 @@ const getOnePostDB = (postNum) => {
     await axios({
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer${localStorage.getItem('token')}`,
+        // Authorization: `Bearer${localStorage.getItem('token')}`,
       },
       method: 'get',
       url: `${BASE_URL}/api/posts?postNum=${postNum}`,
@@ -158,7 +158,7 @@ const editPostDB = (postNum, formData) => {
         console.log(res)
         dispatch(editPost(postNum, res.data))
         console.log('수정되었습니다')
-        history.push('/')
+        window.location.href='/'
       })
       .catch((err) => {
         console.log(err)
@@ -240,21 +240,15 @@ const unlikeDB = (postNum, likeCheck, unlikeCheck) => {
     unlikeCheck,
   )
   return async function (dispatch, getState, { history }) {
-    console.log('test')
-    await axios
-      .post(
-        `${BASE_URL}/api/unlike?postNum=${postNum}`,
-        JSON.stringify({
-          likeCheck: likeCheck,
-          unlikeCheck: unlikeCheck,
-        }),
-        {
-          headers: {
-            'Content-Type': `application/json`,
-            Authorization: `Bearer${localStorage.getItem('token')}`,
-          },
-        },
-      )
+    await axios({
+      method: 'post',
+      url: `${BASE_URL}/api/unlike?postNum=${postNum}`,
+      data: { likeCheck: likeCheck, unlikeCheck: unlikeCheck },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer${localStorage.getItem('token')}`,
+      },
+    })
       .then((res) => {
         console.log(res.data.result)
         dispatch(unLike(unlikeCheck))

@@ -13,6 +13,9 @@ const Sidebar = (pros) => {
   const comming = () => {
     alert('comming soon..!')
   }
+
+const is_token = localStorage.getItem('token') ? true : false
+
   return (
     <>
       <Container>
@@ -56,7 +59,7 @@ const Sidebar = (pros) => {
         <Text margin="20px 30px" color="#fff" size="14px">
           구독
         </Text>
-        <SubsList />
+        {is_token ?  <SubsList /> : null}
       </Container>
     </>
   )

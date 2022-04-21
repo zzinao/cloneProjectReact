@@ -2,10 +2,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Grid, Text, Image, Input, Button } from '../elements'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import { useParams } from 'react-router-dom'
 import { actionCreators as postActions } from '../redux/modules/post'
 import { actionCreators as imageActions } from '../redux/modules/picture'
-import { actionCreators as videoActions } from '../redux/modules/picture'
 import Header from '../shared/Header'
 
 //icons
@@ -77,7 +75,7 @@ const PostWrite = (props) => {
 
   //썸네일 업로드
   const [postThumb, setPostThumb] = useState(
-    'https://t1.daumcdn.net/cfile/tistory/997E5C3C5BA1E68137',
+    _post ? thumb : 'https://pbs.twimg.com/profile_images/1226774390387294210/OeCeNAcZ_400x400.jpg'
   )
   const [preview, setPreview] = useState(
     'https://pbs.twimg.com/profile_images/1226774390387294210/OeCeNAcZ_400x400.jpg',
@@ -185,6 +183,7 @@ const PostWrite = (props) => {
             </Grid>
           </Content>
 
+          {/* 썸네일 */}
           <Text color="#fff" size="18px" weight="600" margin="20px 0 0">
             미리보기 이미지
           </Text>
@@ -295,6 +294,7 @@ const PostWrite = (props) => {
               ></FileInput>
             </Cont>
             {is_edit ? (
+              <>
               <Button
                 bg="#0583F2"
                 width="50%"
@@ -309,6 +309,8 @@ const PostWrite = (props) => {
                 _onClick={editPost}
                 text="게시글 수정"
               />
+              <Text color="#aaa" size="12px">내용을 전부 수정해주세요!</Text>
+              </>
             ) : (
               <Button
                 bg="#0583F2"
@@ -333,10 +335,9 @@ const Container = styled.div`
   margin: 50px auto;
   max-width: 1300px;
   display: flex;
-  background-color: #282828;
+  /* background-color: #282828; */
   border-radius: 30px;
   padding: 50px;
-
   @media screen and (max-width: 768px) {
     flex-direction: column;
     padding: 30px 20px;
@@ -350,13 +351,16 @@ const RightBox = styled.div`
 `
 
 const Title = styled.div`
-  width: 420px;
+  width: 720px;
   border-radius: 5px;
   border: solid 1px #606060;
   align-items: center;
   opacity: 1;
   &:focused {
     border: solid 1px #fff;
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
   }
 `
 const TitleInput = styled.input`
@@ -369,14 +373,16 @@ const TitleInput = styled.input`
   z-index: -1;
   font-size: 15px;
   color: #fff;
-
   &:focus {
     outline: none;
     text-align: left;
   }
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
+  }
 `
 const Content = styled.div`
-  width: 420px;
+  width: 720px;
   margin: 20px 0;
   border-radius: 5px;
   border: solid 1px #606060;
@@ -384,6 +390,9 @@ const Content = styled.div`
   opacity: 1;
   &:focused {
     border: solid 1px #fff;
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
   }
 `
 const ContentInput = styled.input`
@@ -396,27 +405,13 @@ const ContentInput = styled.input`
   z-index: -1;
   font-size: 15px;
   color: #fff;
-
   &:focus {
     outline: none;
     text-align: left;
   }
-`
-
-const PreviewBox = styled.div`
-  display: flex;
-`
-
-const PreviewBtn = styled.div`
-  text-align: center;
-  margin: 0 20px 0 0;
-  padding: 20px;
-  width: 140px;
-  height: 60px;
-  background-color: transparent;
-  border: 1px solid #aaa;
-  border-style: dashed;
-  border-radius: 3px;
+  @media screen and (max-width: 768px) {
+    flex-direction: row;
+  }
 `
 
 const Cont = styled.div`

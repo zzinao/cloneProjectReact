@@ -9,42 +9,51 @@ import styled from 'styled-components'
 //인풋 포커스 시 취소, 댓글 버튼 나타나야함
 const CommentWrite = (props) => {
   const dispatch = useDispatch()
-  const userInfo = useSelector((state) => state?.user?.user?.userProfile)
+  const userProfile = useSelector((state) => state?.user?.user?.userProfile)
+  const userNick = useSelector((state) => state?.user?.user?.userNick)
   const [comment, setComment] = useState('')
+  const is_token = localStorage.getItem('token') ? true : false
 
   const postNum = props[0]
   const handleComment = (e) => {
     setComment(e.target.value)
   }
 
+  console.log(props)
+
   const addComment = () => {
     if (comment === '') {
       window.alert('내용을 입력해주세요!')
       return
     }
-    dispatch(commentActions.addCommentDB(comment, postNum))
+    dispatch(
+      commentActions.addCommentDB(comment, postNum, userNick, userProfile),
+    )
     setComment('')
   }
-
-  return (
-    <>
-      <Contanier>
-        <Grid isFlex_start>
-          <Image shape="profile" src_01={userInfo} size="40" />
-          <InputFiled
-            type="text"
-            placeholder="댓글 추가..."
-            defaultValue={comment}
-            onChange={handleComment}
-          />
-        </Grid>
-        <Grid isFlex_end margin="20px">
-          <Button text="취소" width="70px" margin="0 10px"></Button>
-          <Button _onClick={addComment} text="댓글" width="70px"></Button>
-        </Grid>
-      </Contanier>
-    </>
-  )
+  if (is_token) {
+    return (
+      <>
+        <Contanier>
+          <Grid isFlex_start>
+            <Image shape="profile" src_01={userProfile} size="40" />
+            <InputFiled
+              type="text"
+              placeholder="댓글 추가..."
+              defaultValue={comment}
+              onChange={handleComment}
+            />
+          </Grid>
+          <Grid isFlex_end margin="20px">
+            <Button text="취소" width="70px" margin="0 10px"></Button>
+            <Button _onClick={addComment} text="댓글" width="70px"></Button>
+          </Grid>
+        </Contanier>
+      </>
+    )
+  } else {
+    ;<>.</>
+  }
 }
 
 const Contanier = styled.div`

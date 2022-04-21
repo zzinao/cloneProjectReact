@@ -11,12 +11,13 @@ const LikeIcon = (props) => {
   let isMyUnlike = props.unlikeCheck
   const likeNum = props.postLikeNum
   const dispatch = useDispatch()
-
+const is_token = localStorage.getItem('token') ? true : false
   //likeCheck, unLikeCheck
   const { postNum } = useParams()
 
   const toggleLike = () => {
-    dispatch(postAction.isLikeDB(postNum, myLike, isMyUnlike, likeNum))
+       dispatch(postAction.isLikeDB(postNum, myLike, isMyUnlike, likeNum))
+  
   }
 
   if (!myLike) {

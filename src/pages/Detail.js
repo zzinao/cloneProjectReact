@@ -12,6 +12,7 @@ import { changeTime } from '../shared/ChangeTime'
 import { actionCreators as postActions } from '../redux/modules/post'
 import { useSelector, useDispatch } from 'react-redux'
 import ReactPlayer from 'react-player/lazy'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const Detail = (props) => {
   const { postNum } = useParams()
@@ -52,9 +53,11 @@ const Detail = (props) => {
               <Grid isFlex>
                 <LikeIcon {...detail} />
                 <DisLikeIcon {...detail} />
-                <Text color="#fff" weight="700" margin=" 0 8px">
-                  공유
-                </Text>
+                <CopyToClipboard>
+                  <Text color="#fff" weight="700" margin=" 0 8px">
+                    공유
+                  </Text>
+                </CopyToClipboard>
                 {/* 게시물 삭제 */}
                 {is_login ? (
                   detail?.userId === user_info?.user?.userId ? (

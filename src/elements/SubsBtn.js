@@ -9,15 +9,14 @@ const SubsBtn = (props) => {
   const userSub = props.userId
   const subCheck = props.subscribeCheck
 
-  const [subs, setSubs] = React.useState(subCheck)
-
   console.log(props)
 
-  console.log(subCheck, subs, userSub)
-
+  console.log(subCheck, userSub)
+ const is_token = localStorage.getItem('token') ? true : false
   const toggleSubs = () => {
-    dispatch(postAction.getSubsDB(userSub, subs))
-    setSubs(!subs)
+
+      dispatch(postAction.getSubsDB(userSub, subCheck))
+  
   }
   //   }
   return (
@@ -27,7 +26,7 @@ const SubsBtn = (props) => {
         padding="5px 10px"
         marign="0"
         text="구독"
-        bg={!subs ? '#aaa' : '#CC0000'}
+        bg={subCheck ? '#aaa' : '#CC0000'}
         _onClick={toggleSubs}
       ></Button>
     </>

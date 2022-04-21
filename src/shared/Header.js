@@ -19,14 +19,21 @@ const Header = (props) => {
   const userInfo = useSelector((state) => state.user.user)
   const is_login = useSelector((state) => state.user.is_login)
   const dispatch = useDispatch()
-  const token = getToken ? true : false
-  if (
-    window.location.pathname === '/login' ||
-    window.location.pathname === '/signup'
-  )
-    return null
+  const is_token = localStorage.getItem('token') ? true : false
 
-  if (token) {
+  const postWrite = () => {
+    if(is_token){
+     history.push('/postWrite')
+    }else{
+      alert('로그인 후 동영상을 올릴 수 있습니다!')
+    }
+  }
+
+  if (window.location.pathname === '/login' || window.location.pathname === '/signup') {
+    return null
+  }
+
+  if (is_token) {
     return (
       <HeaderContainer>
         <Grid className="header">
@@ -79,59 +86,60 @@ const Header = (props) => {
         </Grid>
       </HeaderContainer>
     )
-  }
-  return (
-    <HeaderContainer>
-      <Grid className="header">
-        <Grid isFlex>
-          <Grid isFlex_start>
-            <Grid isFlex margin="0 30px">
-              <FaBars size="20" color="#fff" className="icons" />
+  } else {
+    return (
+      <HeaderContainer>
+        <Grid className="header">
+          <Grid isFlex>
+            <Grid isFlex_start>
+              <Grid isFlex margin="0 30px">
+                <FaBars size="20" color="#fff" className="icons" />
+              </Grid>
+              <Logo
+                src={logo}
+                onClick={() => {
+                  history.push('/')
+                }}
+              />
             </Grid>
-            <Logo
-              src={logo}
-              onClick={() => {
-                history.push('/')
-              }}
-            />
-          </Grid>
 
-          <Search />
+            <Search />
 
-          <Grid isFlex_end>
-            <Grid isFlex margin="0x">
-              <Grid isFlex marign="0 30px">
-                <RiVideoAddFill
+            <Grid isFlex_end>
+              <Grid isFlex margin="0x">
+                <Grid isFlex marign="0 30px">
+                  <RiVideoAddFill
                   size="24"
                   color="#fff"
                   className="rgIcons"
-                  onClick={() => history.push('/postWrite')}
+                  onClick={postWrite}
+                />
+                </Grid>
+                <MdApps className="rgIcons" size="24" color="#fff" />
+                <MdOutlineNotificationsNone
+                  className="rgIcons"
+                  size="24"
+                  color="#fff"
                 />
               </Grid>
-              <MdApps className="rgIcons" size="24" color="#fff" />
-              <MdOutlineNotificationsNone
-                className="rgIcons"
-                size="24"
-                color="#fff"
-              />
-            </Grid>
-            <Grid isFlex>
-              <Button
-                bg="#0583F2"
-                width="100px"
-                margin="0 20px"
-                _onClick={() => {
-                  history.push('/login')
-                }}
-              >
-                Signup
-              </Button>
+              <Grid isFlex>
+                <Button
+                  bg="#0583F2"
+                  width="100px"
+                  margin="0 20px"
+                  _onClick={() => {
+                   window.location.href='/login'
+                  }}
+                >
+                  Signup
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </HeaderContainer>
-  )
+      </HeaderContainer>
+    )
+  }
 }
 const HeaderContainer = styled.div`
   background-color: #212121;
@@ -145,6 +153,7 @@ const HeaderContainer = styled.div`
   /* width: 100% */
   left: 0;
   right: 0;
+  z-index: 3;
 `
 
 const Logo = styled.img`
